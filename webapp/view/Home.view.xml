@@ -1,0 +1,35 @@
+<mvc:View
+	controllerName="openui5-odata-visualizer.controller.Home"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards" >
+    <Page showHeader="false">
+        <content>
+            <l:BlockLayout background="Default">
+                <l:BlockLayoutRow>
+                    <l:BlockLayoutCell class="odataVisualizerLandingImageCell sapUiNoContentPadding">
+                        <Image src="img/Cielo_stellato.jpg"
+							    class="welcomeImage"
+                                densityAware= "false"
+								width="100%" />
+                        <l:Grid width="100%"
+								visible="true"
+								class="headerGrid"
+								hSpacing="0"
+								defaultSpan="L6 M6 S6">
+                            <Image	src= "img/Logo_trasparente_piccolo.png"
+								width= "35%"
+								height="35%"
+								densityAware= "false"
+								mode= "Image" />
+                            <!-- TODO sistemare dimensioni logo -->
+                        </l:Grid>
+                    </l:BlockLayoutCell>
+                </l:BlockLayoutRow>
+            </l:BlockLayout>
+        </content>
+    </Page>
+</mvc:View>

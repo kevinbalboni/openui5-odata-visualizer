@@ -1,0 +1,38 @@
+{
+    "navigations": [
+        {
+            "title": "Home",
+            "icon": "sap-icon://home",
+            "isFolder": false,
+            "key": "home",
+            "visible": true,
+            "editable": true
+        },
+        {
+            "title": "Destinations",
+            "icon": "sap-icon://rhombus-milestone-2",
+            "isFolder": false,
+            "key": "destinations",
+            "visible": true,
+            "editable": true
+        },
+        {
+            "title": "TEST",
+            "icon": "sap-icon://circle-task-2",
+            "isFolder": false,
+            "key": "2",
+            "visible": true,
+            "editable": true
+        }
+    ],
+    "fixedNavigations": [
+        {
+            "title": "Credits",
+            "icon": "sap-icon://compare",
+            "isFolder": false,
+            "key": "credits",
+            "visible": true,
+            "editable": true
+        }
+    ]
+}

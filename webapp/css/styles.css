@@ -1,0 +1,14 @@
+welcomeImage .odataVisualizer .welcomeImage {
+    height: 100%;
+}
+
+.odataVisualizer .odataVisualizerLandingImageCell {
+    line-height: 0;
+}
+
+.headerGrid {
+    position: absolute;
+    top: 1rem;
+    padding-left: 2rem;
+    width: calc(100% - 4rem);
+}

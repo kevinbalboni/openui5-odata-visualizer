@@ -1,0 +1,11 @@
+{
+	"name": "openui5-odata-visualizer",
+	"version": "1.0.0",
+	"description": "",
+	"scripts": {
+		"start": "http-server -c-1 ./webapp"
+	},
+	"dependencies": {
+		"http-server": "14.1.1"
+	}
+}

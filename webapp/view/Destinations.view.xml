@@ -1,0 +1,55 @@
+<mvc:View
+	controllerName="openui5-odata-visualizer.controller.Destinations"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards" >
+    <Page showHeader="true" title="{i18n>Destinations}">
+        <content>
+            <Table 
+                id="DestinationsTable"
+                sticky="HeaderToolbar,ColumnHeaders" 
+				items="{ 
+							path: 'destinations>/destinations', 
+							sorter : [{ path: 'name', descending: false }],
+							templateShareable: false
+						}"
+				updateFinished="onDestinationUpdateFinished"
+                class="sapUiResponsiveContentPadding"
+                mode="Delete"
+                delete="onDestinationDelete"
+                growing="true" 
+                growingScrollToLoad="true">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <content>
+                            <Title text="{ViewDestination>/ListTitle}"/>
+                            <ToolbarSpacer/>
+                            <Button icon="sap-icon://add-document" iconFirst="true" press="onDestinationCreate"/>
+                            <ToolbarSeparator/>
+                            <SearchField search="onDestinationSearch" liveChange="onDestinationSearch" width="auto" showRefreshButton="true"/>
+                        </content>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column hAlign="Left" width="30%">
+                        <Text text="{i18n>DestinationName}"/>
+                    </Column>
+                    <Column hAlign="Left" width="70%">
+                        <Text text="{i18n>DestinationURL}"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem type="Detail" detailPress="onDestinationDetailPress">
+                        <cells>
+                            <ObjectIdentifier title="{destinations>name}"/>
+                            <Link text="{destinations>url}" href="{destinations>url}" wrapping="true" target="_blank"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

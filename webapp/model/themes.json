@@ -1,0 +1,25 @@
+{
+    "themes": [
+        {
+            "name": "sap_fiori_3"
+        },
+        {
+            "name": "sap_fiori_3_dark"
+        },
+        {
+            "name": "sap_horizon"
+        },
+        {
+            "name": "sap_horizon_dark"
+        },
+        {
+            "name": "sap_belize"
+        },
+        {
+            "name": "sap_belize_plus"
+        },
+        {
+            "name": "sap_bluecrystal"
+        }
+    ]
+}

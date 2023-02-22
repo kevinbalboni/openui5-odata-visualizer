@@ -1,0 +1,142 @@
+{
+    "_version": "1.12.0",
+    "sap.app": {
+        "id": "openui5-odata-visualizer",
+        "type": "application",
+        "dataSources": {
+            "mainService": {
+                "uri": "https://cors-anywhere.herokuapp.com/https://services.odata.org/V2/(S(pmp1kstujhhejvdtuz05uynk))/OData/OData.svc/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0",
+                    "headers": {
+                        "x-cors-api-key": "temp_18a3c1d217e22a93f7c1861420ef6213"
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui5": {
+        "handleValidation": true,
+        "dependencies": {
+            "minUI5Version": "1.108.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.f": {},
+                "sap.tnt": {},
+                "sap.ui.layout": {}
+            }
+        },
+        "rootView": {
+            "viewName": "openui5-odata-visualizer.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "app"
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "async": true,
+                "settings": {
+                    "bundleName": "openui5-odata-visualizer.i18n.i18n",
+                    "supportedLocales": [
+                        "en",
+                        "it"
+                    ],
+                    "fallbackLocale": "en"
+                }
+            },
+            "menu_navigations": {
+                "type": "sap.ui.model.json.JSONModel",
+                "uri": "model/menu_navigations.json",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay"
+                }
+            },
+            "themes": {
+                "type": "sap.ui.model.json.JSONModel",
+                "uri": "model/themes.json",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay"
+                }
+            },
+            "destinations": {
+                "type": "sap.ui.model.json.JSONModel",
+                "uri": "model/destinations.json",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay"
+                }
+            },
+            "publicOdata": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "defaultUpdateMethod": "PUT"
+                }
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/styles.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "viewPath": "openui5-odata-visualizer.view",
+                "controlId": "mainContents",
+                "controlAggregation": "pages",
+                "transition": "show",
+                "bypassed": {
+                    "target": [
+                        "notFound"
+                    ]
+                },
+                "async": true
+            },
+            "routes": [
+                {
+                    "pattern": "",
+                    "name": "home",
+                    "target": "home"
+                },
+                {
+                    "pattern": "destinations",
+                    "name": "destinations",
+                    "target": "destinations"
+                },
+                {
+                    "pattern": "credits",
+                    "name": "credits",
+                    "target": "credits"
+                }
+            ],
+            "targets": {
+                "home": {
+                    "viewId": "home",
+                    "viewName": "Home"
+                },
+                "destinations": {
+                    "viewId": "destinations",
+                    "viewName": "Destinations"
+                },
+                "credits": {
+                    "viewId": "credits",
+                    "viewName": "Credits"
+                }
+            }
+        }
+    }
+}
