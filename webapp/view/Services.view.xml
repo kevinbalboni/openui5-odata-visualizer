@@ -1,0 +1,55 @@
+<mvc:View
+	controllerName="openui5-odata-visualizer.controller.Services"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards" >
+	<Page showHeader="true" title="{i18n>Services}">
+		<content>
+			<Table 
+                id="ServicesTable"
+                sticky="HeaderToolbar,ColumnHeaders" 
+				items="{ 
+							path: 'services>/services', 
+							sorter : [{ path: 'name', descending: false }],
+							templateShareable: false
+						}"
+				updateFinished="onServiceUpdateFinished"
+                class="sapUiResponsiveContentPadding"
+                mode="Delete"
+                delete="onServiceDelete"
+                growing="true" 
+                growingScrollToLoad="true">
+				<headerToolbar>
+					<OverflowToolbar>
+						<content>
+							<Title text="{ViewService>/ListTitle}"/>
+							<ToolbarSpacer/>
+							<Button icon="sap-icon://add-document" iconFirst="true" press="onServiceCreate"/>
+							<ToolbarSeparator/>
+							<SearchField search="onServiceSearch" liveChange="onServiceSearch" width="auto" showRefreshButton="true"/>
+						</content>
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column hAlign="Left" width="30%">
+						<Text text="{i18n>ServiceName}"/>
+					</Column>
+					<Column hAlign="Left" width="70%">
+						<Text text="{i18n>ServiceURL}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Detail" detailPress="onServiceDetailPress">
+						<cells>
+							<ObjectIdentifier title="{services>name}"/>
+							<Link text="{services>url}" href="{services>url}" wrapping="true" target="_blank"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Page>
+</mvc:View>

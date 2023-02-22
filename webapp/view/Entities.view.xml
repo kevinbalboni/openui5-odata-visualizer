@@ -1,14 +1,14 @@
 <mvc:View
-	controllerName="openui5-odata-visualizer.controller.Credits"
+	controllerName="openui5-odata-visualizer.controller.Entities"
 	xmlns="sap.m"
 	xmlns:l="sap.ui.layout"
 	xmlns:core="sap.ui.core"
 	xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.f"
     xmlns:card="sap.f.cards" >
-    <Page showHeader="false">
-        <content>
-            <!-- TODO -->
-        </content>
-    </Page>
+	<Page showHeader="true" title="{i18n>Entities}">
+		<content>
+			
+		</content>
+	</Page>
 </mvc:View>

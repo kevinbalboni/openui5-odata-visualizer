@@ -65,22 +65,12 @@
                     "defaultBindingMode": "TwoWay"
                 }
             },
-            "destinations": {
+            "services": {
                 "type": "sap.ui.model.json.JSONModel",
-                "uri": "model/destinations.json",
+                "uri": "model/services.json",
                 "preload": true,
                 "settings": {
                     "defaultBindingMode": "TwoWay"
-                }
-            },
-            "publicOdata": {
-                "dataSource": "mainService",
-                "preload": true,
-                "settings": {
-                    "defaultBindingMode": "TwoWay",
-                    "defaultCountMode": "Inline",
-                    "refreshAfterChange": false,
-                    "defaultUpdateMethod": "PUT"
                 }
             }
         },
@@ -113,9 +103,19 @@
                     "target": "home"
                 },
                 {
-                    "pattern": "destinations",
-                    "name": "destinations",
-                    "target": "destinations"
+                    "pattern": "services",
+                    "name": "services",
+                    "target": "services"
+                },
+                {
+                    "pattern": "entities",
+                    "name": "entities",
+                    "target": "entities"
+                },
+                {
+                    "pattern": "metadata",
+                    "name": "metadata",
+                    "target": "metadata"
                 },
                 {
                     "pattern": "credits",
@@ -128,9 +128,17 @@
                     "viewId": "home",
                     "viewName": "Home"
                 },
-                "destinations": {
-                    "viewId": "destinations",
-                    "viewName": "Destinations"
+                "services": {
+                    "viewId": "services",
+                    "viewName": "Services"
+                },
+                "entities": {
+                    "viewId": "entities",
+                    "viewName": "Entities"
+                },
+                "metadata": {
+                    "viewId": "metadata",
+                    "viewName": "Metadata"
                 },
                 "credits": {
                     "viewId": "credits",

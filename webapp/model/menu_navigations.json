@@ -9,18 +9,42 @@
             "editable": true
         },
         {
-            "title": "Destinations",
-            "icon": "sap-icon://rhombus-milestone-2",
+            "title": "Services",
+            "icon": "sap-icon://official-service",
             "isFolder": false,
-            "key": "destinations",
+            "key": "services",
             "visible": true,
             "editable": true
         },
         {
-            "title": "TEST",
-            "icon": "sap-icon://circle-task-2",
+            "title": "Entities",
+            "icon": "sap-icon://expand-all",
             "isFolder": false,
-            "key": "2",
+            "key": "entities",
+            "visible": true,
+            "editable": true
+        },
+        {
+            "title": "Datas",
+            "icon": "sap-icon://org-chart",
+            "isFolder": false,
+            "key": "datas",
+            "visible": true,
+            "editable": true
+        },
+        {
+            "title": "Metadata",
+            "icon": "sap-icon://developer-settings",
+            "isFolder": false,
+            "key": "metadata",
+            "visible": true,
+            "editable": true
+        },
+        {
+            "title": "Grafic",
+            "icon": "sap-icon://bubble-chart",
+            "isFolder": false,
+            "key": "grafic",
             "visible": true,
             "editable": true
         }

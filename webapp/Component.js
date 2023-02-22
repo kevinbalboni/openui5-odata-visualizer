@@ -31,11 +31,14 @@ sap.ui.define([
                     case "home":
                         aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Home");
                         break;
-                    case "destinations":
-                        aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Destinations");
+                    case "services":
+                        aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Services");
                         break;
-                    case "2":
-                        //aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("2");
+                    case "entities":
+                        aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Entities");
+                        break;
+                    case "metadata":
+                        aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Metadata");
                         break;
                 }
             }

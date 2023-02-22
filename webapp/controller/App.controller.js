@@ -67,6 +67,7 @@ sap.ui.define([
 				}
 			}.bind(this));
 
+			this.onChangeSelectedService();
 		},
 
 		onItemSelect: function (oEvent) {
@@ -134,7 +135,6 @@ sap.ui.define([
 				}
 			});
 
-
 			oActionSheet.openBy(oEvent.getSource());
 		},
 
@@ -197,7 +197,7 @@ sap.ui.define([
 					type: "Accept",
 					press: function (oEvent) {
 						var sTheme = this.getModel("appView").getProperty("/themeSelected");
-						localStorage.setItem("Wispin_UI5_Theme", sTheme);
+						localStorage.setItem("OdataVisualizer_UI5_Theme", sTheme);
 						oDialog.close();
 					}.bind(this)
 				}),
@@ -205,7 +205,7 @@ sap.ui.define([
 					text: this.getI18nText("ThemeClose"),
 					type: "Reject",
 					press: function (oEvent) {
-						var sTheme = localStorage.getItem("Wispin_UI5_Theme");
+						var sTheme = localStorage.getItem("OdataVisualizer_UI5_Theme");
 						if (!sTheme) {
 							sTheme = sap.ui.getCore().getConfiguration().getTheme();
 						}
@@ -214,7 +214,7 @@ sap.ui.define([
 					}
 				}),
 				beforeOpen: function () {
-					var sTheme = localStorage.getItem("Wispin_UI5_Theme");
+					var sTheme = localStorage.getItem("OdataVisualizer_UI5_Theme");
 					if (!sTheme) {
 						sTheme = sap.ui.getCore().getConfiguration().getTheme();
 					}
@@ -228,6 +228,64 @@ sap.ui.define([
 
 			this.getView().addDependent(oDialog);
 			oDialog.open();
+		},
+
+		onChangeSelectedService: function (oEvent) {
+
+			let sSelectedID = this.getModel("services").getProperty("/selectedID");
+			let aServices = this.getModel("services").getProperty("/services");
+			let oService = aServices.find(x => x.ID === sSelectedID);
+			let sURL = oService.url;
+
+			this.getModel("services").setProperty("/selectedService", oService);
+
+			if (oService.metadata && oService.metadata !== "") {
+				return;
+			}
+
+			if (oService.url.slice(-1) !== "/") {
+				sURL = oService.url + "/";
+			}
+
+			this.getView().setBusy(true);
+
+			$.ajax({
+				url: sURL + "$metadata",
+				type: "GET",
+				//crossDomain: true,
+				//headers: { 'Access-Control-Allow-Origin': 'services.odata.org' },
+				dataType: 'text',
+				contentType: "application/x-www-form-urlencoded",
+				success: function (oData, oResponse) {
+					this.getView().setBusy(false);
+					this.getLogger(this.getControllerName()).info("metadataLoaded - SUCCESS");
+					oService.metadata_formatted = this.formatXml(oData);
+					oService.metadata = oData;
+				}.bind(this),
+				error: function (oError) { //TODO gestire oError e visualizzarlo
+					this.getLogger(this.getControllerName()).info("metadataLoaded - ERROR");
+
+					MessageBox.error(this.getI18nText("MetadataError"), {
+						title: this.getI18nText("MetadataError"),
+						actions: MessageBox.Action.CLOSE,
+						emphasizedAction: MessageBox.Action.CLOSE
+					});
+					this.getView().setBusy(false);
+				}.bind(this)
+			});
+
+		},
+
+		formatXml: function (xml, tab) {
+			var formatted = "",
+				indent = "";
+			tab = tab || "\t";
+			xml.split(/>\s*</).forEach(function (node) {
+				if (node.match(/^\/\w/)) { indent = indent.substring(tab.length); } // decrease indent by one 'tab'
+				formatted += indent + "<" + node + ">\r\n";
+				if (node.match(/^<?\w[^>]*[^\/]$/)) { indent += tab; } // increase indent
+			});
+			return formatted.substring(1, formatted.length - 3);
 		}
 
 	});
