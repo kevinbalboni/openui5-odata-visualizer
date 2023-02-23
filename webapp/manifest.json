@@ -98,7 +98,7 @@
             },
             "routes": [
                 {
-                    "pattern": "",
+                    "pattern": "home",
                     "name": "home",
                     "target": "home"
                 },
@@ -113,12 +113,22 @@
                     "target": "entities"
                 },
                 {
+                    "pattern": "functions",
+                    "name": "functions",
+                    "target": "functions"
+                },
+                {
+                    "pattern": "datas",
+                    "name": "datas",
+                    "target": "datas"
+                },
+                {
                     "pattern": "metadata",
                     "name": "metadata",
                     "target": "metadata"
                 },
                 {
-                    "pattern": "credits",
+                    "pattern": "",
                     "name": "credits",
                     "target": "credits"
                 }
@@ -135,6 +145,14 @@
                 "entities": {
                     "viewId": "entities",
                     "viewName": "Entities"
+                },
+                "functions": {
+                    "viewId": "functions",
+                    "viewName": "Functions"
+                },
+                "datas": {
+                    "viewId": "datas",
+                    "viewName": "Datas"
                 },
                 "metadata": {
                     "viewId": "metadata",

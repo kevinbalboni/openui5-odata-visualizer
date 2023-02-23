@@ -19,7 +19,7 @@ sap.ui.define([
 	Label, Text, MessageBox, Input, InputType, SimpleForm, Binding, Column, Sorter) {
 	"use strict";
 
-	return BaseController.extend("openui5-odata-visualizer.controller.Entities", {
+	return BaseController.extend("openui5-odata-visualizer.controller.Functions", {
 
 		onInit: function () {
 			this.getLogger(this.getControllerName()).info("onInit");
@@ -28,75 +28,70 @@ sap.ui.define([
 			var oViewModel = new JSONModel({
 				isPhone: Device.system.phone
 			});
-			this.setModel(oViewModel, "ViewEntities");
+			this.setModel(oViewModel, "ViewFunctions");
 
-			this.getRouter().getRoute("entities").attachMatched(function (oEvent) {
+			this.getRouter().getRoute("functions").attachMatched(function (oEvent) {
 
 				var oModel = this.getModel("services");
-				var bindingElementList = new Binding(oModel, "/", oModel.getContext("/selectedEntity"));
+				var bindingElementList = new Binding(oModel, "/", oModel.getContext("/selectedFunction"));
 				bindingElementList.attachChange(function (oEventChange) {
-					this._bindEntitiesRows();
+					this._bindRows();
 				}.bind(this));
 
-				this._bindEntitiesRows();
+				this._bindRows();
 			}.bind(this));
 
 			Device.media.attachHandler(function (oDevice) {
-				this.getModel("ViewEntities").setProperty("/isPhone", oDevice.name === "Phone");
+				this.getModel("ViewFunctions").setProperty("/isPhone", oDevice.name === "Phone");
 			}.bind(this));
 		},
 
-		_bindEntitiesRows: function () {
+		_bindRows: function () {
 
-			let sBindEntity = this.getModel("services").getProperty("/selectedEntity");
-			let aEntities = this.getModel("services").getProperty("/selectedService/metadataForDetails/entitiesList");
+			let sBindEntity = this.getModel("services").getProperty("/selectedFunction");
+			let aEntities = this.getModel("services").getProperty("/selectedService/metadataForDetails/functionsList");
 
 			if (!aEntities) {
 				return;
 			}
 
-			let oEntity = aEntities.find(x => x.key === sBindEntity);
+			let oEntity = aEntities.find(x => x.name === sBindEntity);
 			if (!oEntity) {
 				return;
 			}
 
-			this.getModel("ViewEntities").setProperty("/entityBindedKey", oEntity.text);
+			this.getModel("ViewFunctions").setProperty("/functionBinded", oEntity);
 
-			this.byId("EntitiesTable").bindRows({
-				path: "services>/selectedService/metadataForDetails/entities/" + sBindEntity,
+			this.byId("FunctionsTable").bindRows({
+				path: "services>/selectedService/metadataForDetails/functions/" + sBindEntity + "/parameters",
 				parameters: {
 					operationMode: "Client"
 				},
 				sorter: [new Sorter({
-					path: "order",
+					path: "mode",
 					descending: false
 				}), new Sorter({
-					path: "Name",
+					path: "name",
 					descending: true
 				})]
 			});
 		},
 
-		onNavToEntity: function (oEvent) {
-			let oLineSelected = oEvent.getSource().getBindingContext("services").getObject();
-			this.getModel("services").setProperty("/selectedEntity", oLineSelected.toEntity);
-		},
-
-		onEntitiesRowsUpdate: function (oEvent) {
+		onRowsUpdate: function (oEvent) {
 			var iCount = oEvent.getSource().getBinding("rows").getLength();
-			var sEntityBinded = this.getModel("ViewEntities").getProperty("/entityBindedKey");
-			var sTitle = this.getI18nText("EntitiesTableTitle", [sEntityBinded, iCount]);
-			this.getModel("ViewEntities").setProperty("/TableTitle", sTitle);
-			this.autoResizeColumns("EntitiesTable");
+			var sEntityBinded = this.getModel("ViewFunctions").getProperty("/functionBinded/name");
+			var sTitle = this.getI18nText("FunctionsTableTitle", [sEntityBinded, iCount]);
+			this.getModel("ViewFunctions").setProperty("/TableTitle", sTitle);
+			this.autoResizeColumns("FunctionsTable");
 		},
 
-		onChangeEntity: function () {
+		onChangeFunction: function () {
 			this._clearFilters();
-			this._bindEntitiesRows();
+			this._bindRows();
 		},
 
-		onEntitySearch: function (oEvent) {
-			let aFields = ["name", "type", "nullable", "maxLength", "precision", "scale", "toEntity"];
+		onFunctionSearch: function (oEvent) {
+			let aFields = ["name", "type", "nullable", "maxLength", "precision", "scale"];
 			let sSearchValue = oEvent.getSource().getValue();
 			let oFilterAll = [];
 
@@ -122,14 +117,14 @@ sap.ui.define([
 				}
 			}
 
-			this.byId("EntitiesTable").getBinding("rows").filter(oFilterAll);
+			this.byId("FunctionsTable").getBinding("rows").filter(oFilterAll);
 			jQuery.sap.delayedCall(200, this, function () {
-				this.byId("SearchEntities").focus();
+				this.byId("SearchFunctions").focus();
 			});
 		},
 
 		_clearFilters: function () {
-			let oTable = this.byId("EntitiesTable");
+			let oTable = this.byId("FunctionsTable");
 			let oTableBinding = oTable.getBinding();
 			let oTableColumns = oTable.getColumns();
 			if (oTableBinding) {
@@ -141,7 +136,7 @@ sap.ui.define([
 				oTableColumns[k].setFilterValue("");
 				oTableColumns[k].setFiltered(false);
 			}
-			this.byId("SearchEntities").setValue("").fireLiveChange();
+			this.byId("SearchFunctions").setValue("").fireLiveChange();
 		}
 
 	});

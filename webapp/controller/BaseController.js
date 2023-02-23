@@ -74,6 +74,18 @@ sap.ui.define([
 			} else {
 				this.getRouter().navTo("home", {}, true /*no history*/);
 			}
+		},
+
+		autoResizeColumns: function (sTableID) {
+			let oTable = this.byId(sTableID) ? this.byId(sTableID) : sap.ui.getCore().byId(sTableID);
+			if (oTable) {
+				let aColumns = oTable.getColumns();
+				if (aColumns && Array.isArray(aColumns)) {
+					for (let i = aColumns.length - 1; i >= 0; i--) {
+						oTable.autoResizeColumn(i);
+					}
+				}
+			}
 		}
 	});
 

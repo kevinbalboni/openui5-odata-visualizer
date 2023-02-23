@@ -1,5 +1,6 @@
 sap.ui.define([
 	"openui5-odata-visualizer/controller/BaseController",
+	"openui5-odata-visualizer/model/metadataUtils",
 	"jquery.sap.global",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/ResponsivePopover",
@@ -31,7 +32,7 @@ sap.ui.define([
 	"sap/ui/model/FilterOperator",
 	"sap/ui/model/Sorter",
 	"sap/ui/core/Item"
-], function (BaseController, jQuery, JSONModel, ResponsivePopover, MessagePopover, ActionSheet, Button, Label, Text,
+], function (BaseController, metadataUtils, jQuery, JSONModel, ResponsivePopover, MessagePopover, ActionSheet, Button, Label, Text,
 	Input, Link, SimpleForm, NotificationListItem, MessageItem, CustomData, MessageToast, MessageBox, MessageStrip,
 	Dialog, Device, HashChanger, library, ButtonType, ODataModelV2, Image, FlexBox, CheckBox,
 	Select, Filter, FilterOperator, Sorter, Item) {
@@ -88,10 +89,11 @@ sap.ui.define([
 		},
 
 		onHomeIconPressed: function (oEvent) {
-			this.getRouter().navTo("home");
+			//this.getRouter().navTo("home");
+			this.getRouter().navTo("credits");
 		},
 
-		onUserNamePress: function (oEvent) {
+		/* onUserNamePress: function (oEvent) {
 			var oLogger = this.getLogger(this.getControllerName());
 			oLogger.info("onUserNamePress");
 
@@ -107,7 +109,7 @@ sap.ui.define([
 				switch (oEventPress.getSource().getCustomData()[0].getKey()) {
 
 					case "Theme":
-						this._onChangeTheme();
+						this.onChangeTheme();
 						break;
 				}
 
@@ -136,7 +138,7 @@ sap.ui.define([
 			});
 
 			oActionSheet.openBy(oEvent.getSource());
-		},
+		}, */
 
 		onSideNavButtonPress: function () {
 			var oToolPage = this.byId("app");
@@ -154,7 +156,7 @@ sap.ui.define([
 			}
 		},
 
-		_onChangeTheme: function () {
+		onChangeTheme: function () {
 
 			var oDialog = new Dialog({
 				title: this.getI18nText("ThemeTitle"),
@@ -230,26 +232,61 @@ sap.ui.define([
 			oDialog.open();
 		},
 
-		onChangeSelectedService: function (oEvent) {
+		onChangeSelectedService: function (oEventChange) {
 
-			let sSelectedID = this.getModel("services").getProperty("/selectedID");
+			let sSelectedID = this.getModel("services").getProperty("/selectedServiceID");
 			let aServices = this.getModel("services").getProperty("/services");
 			let oService = aServices.find(x => x.ID === sSelectedID);
 			let sURL = oService.url;
 
 			this.getModel("services").setProperty("/selectedService", oService);
 
-			if (oService.metadata && oService.metadata !== "") {
-				return;
+			if (oEventChange && oEventChange.getSource().getMetadata().getName() === "sap.m.Button") {
+
+			} else {
+				if (oService.metadata && oService.metadata !== "") {
+					return;
+				}
 			}
 
-			if (oService.url.slice(-1) !== "/") {
-				sURL = oService.url + "/";
-			}
+			/* 
+						if (oService.url.slice(-1) !== "/") {
+							sURL = oService.url + "/";
+						} */
+
+			var oDataModel = new sap.ui.model.odata.v2.ODataModel(sURL, {
+				useBatch: false
+			});
+			oDataModel.setSizeLimit(1000000);
 
 			this.getView().setBusy(true);
+			oDataModel.attachMetadataLoaded(function (oEvent) {
 
-			$.ajax({
+				oService.metadata = metadataUtils.formatXml(oEvent.getParameters().metadata.sMetadataBody);
+				oService.metadataString = metadataUtils.formatXml(oEvent.getParameters().metadata.sMetadataBody);
+				oService.metadataForDetails = metadataUtils.getParsedMetadataForDetails(oEvent.getParameters().metadata.getServiceMetadata());
+				oService.metadataForDiagram = metadataUtils.getParsedMetadataForDiagram(oEvent.getParameters().metadata.getServiceMetadata());
+				oService.metadataForServices = metadataUtils.getParsedMetadataForServices(oEvent.getParameters().metadata.getServiceMetadata());
+				oService.error = false;
+				oService.odataModel = oDataModel;
+
+				this.getModel("services").setProperty("/selectedService", oService);
+
+				this.getView().setBusy(false);
+			}.bind(this));
+
+			oDataModel.attachMetadataFailed(function (oEvent) {
+				this.getLogger(this.getControllerName()).info("metadataLoaded - ERROR");
+
+				MessageBox.error(this.getI18nText("MetadataError"), {
+					title: this.getI18nText("MetadataError"),
+					actions: MessageBox.Action.CLOSE,
+					emphasizedAction: MessageBox.Action.CLOSE
+				});
+				this.getView().setBusy(false);
+			}.bind(this));
+
+			/* $.ajax({
 				url: sURL + "$metadata",
 				type: "GET",
 				//crossDomain: true,
@@ -260,6 +297,16 @@ sap.ui.define([
 					this.getView().setBusy(false);
 					this.getLogger(this.getControllerName()).info("metadataLoaded - SUCCESS");
 					oService.metadata_formatted = this.formatXml(oData);
+
+					let otest = {
+						//odata: this.oModel.odata,
+						metadataString: metadataUtils.formatXml(oData),
+						metadataForDetails: metadataUtils.getParsedMetadataForDetails(this.oModel.odata.getServiceMetadata()),
+						metadataForDiagram: metadataUtils.getParsedMetadataForDiagram(this.oModel.odata.getServiceMetadata()),
+						metadataForServices: metadataUtils.getParsedMetadataForServices(this.oModel.odata.getServiceMetadata()),
+						error: false
+					};
+
 					oService.metadata = oData;
 				}.bind(this),
 				error: function (oError) { //TODO gestire oError e visualizzarlo
@@ -272,11 +319,11 @@ sap.ui.define([
 					});
 					this.getView().setBusy(false);
 				}.bind(this)
-			});
+			}); */
 
-		},
+		}
 
-		formatXml: function (xml, tab) {
+		/* formatXml: function (xml, tab) {
 			var formatted = "",
 				indent = "";
 			tab = tab || "\t";
@@ -286,7 +333,7 @@ sap.ui.define([
 				if (node.match(/^<?\w[^>]*[^\/]$/)) { indent += tab; } // increase indent
 			});
 			return formatted.substring(1, formatted.length - 3);
-		}
+		} */
 
 	});
 });

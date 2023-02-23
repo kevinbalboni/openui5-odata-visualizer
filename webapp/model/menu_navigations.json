@@ -5,7 +5,7 @@
             "icon": "sap-icon://home",
             "isFolder": false,
             "key": "home",
-            "visible": true,
+            "visible": false,
             "editable": true
         },
         {
@@ -21,6 +21,22 @@
             "icon": "sap-icon://expand-all",
             "isFolder": false,
             "key": "entities",
+            "visible": true,
+            "editable": true
+        },
+        {
+            "title": "Functions",
+            "icon": "sap-icon://action",
+            "isFolder": false,
+            "key": "functions",
+            "visible": true,
+            "editable": true
+        },
+        {
+            "title": "Complex Types",
+            "icon": "sap-icon://syntax",
+            "isFolder": false,
+            "key": "complexTypes",
             "visible": true,
             "editable": true
         },

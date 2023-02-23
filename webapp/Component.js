@@ -1,6 +1,6 @@
 sap.ui.define([
     "sap/ui/core/UIComponent",
-    "sap/ui/model/json/JSONModel",
+    "sap/ui/model/json/JSONModel"
 ], function (UIComponent, JSONModel) {
     "use strict";
 
@@ -36,6 +36,12 @@ sap.ui.define([
                         break;
                     case "entities":
                         aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Entities");
+                        break;
+                    case "functions":
+                        aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Functions");
+                        break;
+                    case "datas":
+                        aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Datas");
                         break;
                     case "metadata":
                         aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Metadata");

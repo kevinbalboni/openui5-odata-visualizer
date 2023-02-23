@@ -1,0 +1,65 @@
+<mvc:View
+	controllerName="openui5-odata-visualizer.controller.Datas"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:uiTable="sap.ui.table" >
+	<Page showHeader="true" title="{i18n>Datas}" class="sapUiResponsiveContentPadding">
+		<form:SimpleForm 
+					editable="true"
+					layout="ResponsiveGridLayout" 
+                    labelSpanXL="4" 
+					labelSpanL="4" 
+					labelSpanM="4" 
+					labelSpanS="12"
+                    emptySpanXL="5" 
+					emptySpanL="4" 
+					emptySpanM="3" 
+					emptySpanS="0"
+                    columnsXL="1" 
+					columnsL="1" 
+					columnsM="1">
+			<form:content>
+				<Label text="{i18n>Entities}"/>
+				<Select width="100%"
+                            change="onChangeValueSelect" 
+                            selectedKey="{ViewDatas>/selectedEntity}" 
+							items="{ 
+							 path: 'services>/selectedService/metadataForDetails/entitiesList', 
+							sorter : [{ path: 'text', descending: false }] ,
+							templateShareable: false
+						}">
+					<core:ListItem key="{services>text}" text="{services>text}"/>
+				</Select>
+			</form:content>
+		</form:SimpleForm>
+		<uiTable:Table id="EntitiesTable" selectionMode="None" visibleRowCountMode="Auto" 
+							enableSelectAll="false"	alternateRowColors="true" editable="false" 
+							enableBusyIndicator="false" showColumnVisibilityMenu="true"
+                            cellClick="onCellClick" rowsUpdated="onRowsUpdate" >
+			<uiTable:extension>
+				<OverflowToolbar>
+					<Title text="{logsView>/TableTitle}"/>
+					<ToolbarSpacer/>
+					<MenuButton icon="sap-icon://excel-attachment" type="Transparent">
+						<menu>
+							<Menu itemSelected="onMenuExportAction">
+								<MenuItem key="EXCEL" text="{i18n>LogsExportExcel}"/>
+								<MenuItem key="CSV" text="{i18n>LogsExportCSV}"/>
+							</Menu>
+						</menu>
+					</MenuButton>
+					<ToolbarSeparator/>
+					<SearchField id="LogsPageSearchField" search="onFilters" liveChange= "onFilters" width="auto"
+                                        showRefreshButton="false" />
+				</OverflowToolbar>
+			</uiTable:extension>
+			<uiTable:columns>
+
+                </uiTable:columns>
+		</uiTable:Table>
+	</Page>
+</mvc:View>

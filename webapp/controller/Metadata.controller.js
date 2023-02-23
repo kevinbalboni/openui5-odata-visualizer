@@ -38,7 +38,7 @@ sap.ui.define([
 		},
 
 		/* _attachRouteMatched: function (oEvent) {
-			let sSelectedID = this.getModel("services").getProperty("/selectedID");
+			let sSelectedID = this.getModel("services").getProperty("/selectedServiceID");
 			let aServices = this.getModel("services").getProperty("/services");
 			let oService = aServices.find(x => x.ID === sSelectedID);
 

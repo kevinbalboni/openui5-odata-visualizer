@@ -9,7 +9,7 @@
 	xmlns:codeeditor="sap.ui.codeeditor" >
 	<Page showHeader="true" title="{i18n>Metadata}">
 		<content>
-			<codeeditor:CodeEditor type="xml" editable="false" value="{services>/selectedService/metadata_formatted}" height="100%"/>
+			<codeeditor:CodeEditor type="xml" editable="false" value="{services>/selectedService/metadata}" height="100%"/>
 		</content>
 	</Page>
 </mvc:View>
