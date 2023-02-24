@@ -14,7 +14,7 @@
 					<Title text="{i18n>Metadata}" />
 				</contentMiddle>
 				<contentRight>
-					<Button icon="sap-icon://download-from-cloud" press="onSaveMetadata" 
+					<Button icon="sap-icon://download-from-cloud" press="onSaveMetadata" text="{i18n>Download}"
 							enabled="{= ${services>/selectedService/metadata}.length > 0 ? true : false}"/>
 				</contentRight>
 			</Bar>

@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="openui5-odata-visualizer.controller.Entities"
+	controllerName="openui5-odata-visualizer.controller.ComplexTypes"
 	xmlns="sap.m"
 	xmlns:l="sap.ui.layout"
 	xmlns:core="sap.ui.core"
@@ -7,14 +7,14 @@
     xmlns:f="sap.f"
 	xmlns:form="sap.ui.layout.form"
 	xmlns:uiTable="sap.ui.table" >
-	<Page showHeader="true" title="{i18n>Entities}" class="sapUiResponsiveContentPadding">
+	<Page showHeader="true" title="{i18n>ComplexTypes}" class="sapUiResponsiveContentPadding">
 		<content>
 			<form:SimpleForm 
 					editable="true"
 					layout="ResponsiveGridLayout" 
                     labelSpanXL="4" 
 					labelSpanL="4" 
-					labelSpanM="4" 
+					labelSpanM="3" 
 					labelSpanS="12"
                     emptySpanXL="5" 
 					emptySpanL="4" 
@@ -24,46 +24,41 @@
 					columnsL="1" 
 					columnsM="1">
 				<form:content>
-					<Label text="{i18n>Entities}"/>
+					<Label text="{i18n>ComplexType}"/>
 					<Select width="100%"
-                            change="onChangeEntity" 
-                            selectedKey="{services>/selectedEntity}" 
+                            change="onChangeComplexType" 
+                            selectedKey="{services>/selectedComplexType}" 
 							items="{ 
-							 path: 'services>/selectedService/metadataForDetails/entitiesList', 
-							sorter : [{ path: 'text', descending: false }] ,
+							 path: 'services>/selectedService/metadataForDetails/complexTypesList', 
+							sorter : [{ path: 'name', descending: false }] ,
 							templateShareable: false
 						}">
-						<core:ListItem key="{services>key}" text="{services>text}"/>
+						<core:ListItem key="{services>name}" text="{services>name}"/>
 					</Select>
 				</form:content>
 			</form:SimpleForm>
 			<Panel height="88%" backgroundDesign="Transparent" class="sapUiNoContentPadding">
-				<uiTable:Table id="EntitiesTable" selectionMode="None" visibleRowCountMode="Auto" 
+				<uiTable:Table id="ComplexTypesTable" selectionMode="None" visibleRowCountMode="Auto" 
 							enableSelectAll="false"	alternateRowColors="true" editable="false" 
 							enableBusyIndicator="false" showColumnVisibilityMenu="false"
-                            cellClick="onCellClick" rowsUpdated="onEntitiesRowsUpdate" width="100%">
+                            cellClick="onCellClick" rowsUpdated="onRowsUpdate" width="100%">
 					<uiTable:extension>
 						<OverflowToolbar>
-							<Title text="{ViewEntities>/TableTitle}"/>
+							<Title text="{ViewComplexTypes>/TableTitle}"/>
 							<ToolbarSpacer/>
 							<MenuButton icon="sap-icon://excel-attachment" type="Transparent">
 								<menu>
-									<Menu itemSelected="onEntityExportToFile">
+									<Menu itemSelected="onComplexTypeExportToFile">
 										<MenuItem key="EXCEL" text="{i18n>ExportExcel}"/>
 										<MenuItem key="CSV" text="{i18n>ExportCSV}"/>
 									</Menu>
 								</menu>
 							</MenuButton>
 							<ToolbarSeparator/>
-							<SearchField id="SearchEntities" search="onEntitySearch" width="auto" showRefreshButton="true" />
+							<SearchField id="SerachComplexTypes" search="onComplexTypesSearch" width="auto" showRefreshButton="true" />
 						</OverflowToolbar>
 					</uiTable:extension>
 					<uiTable:columns>
-						<uiTable:Column autoResizable="true" >
-							<uiTable:template>
-								<core:Icon src="{services>icon}" color="{= ${services>icon} === 'sap-icon://key' ? 'Critical' : 'Marker'}" />
-							</uiTable:template>
-						</uiTable:Column>
 						<uiTable:Column sortProperty="name" filterProperty="name" autoResizable="true">
 							<Label text="{i18n>PropertyName}" />
 							<uiTable:template>
@@ -74,12 +69,6 @@
 							<Label text="{i18n>PropertyType}" />
 							<uiTable:template>
 								<Text text="{services>type}" wrapping="false"/>
-							</uiTable:template>
-						</uiTable:Column>
-						<uiTable:Column sortProperty="toEntity" filterProperty="toEntity" autoResizable="true">
-							<Label text="{i18n>PropertyToEntity}" />
-							<uiTable:template>
-								<Link text="{services>toEntity}" press="onNavToEntity"/>
 							</uiTable:template>
 						</uiTable:Column>
 						<uiTable:Column sortProperty="precision" filterProperty="precision" autoResizable="true">

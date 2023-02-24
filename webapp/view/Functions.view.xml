@@ -36,9 +36,9 @@
 						<core:ListItem key="{services>name}" text="{services>name}"/>
 					</Select>
 					<Label text="{i18n>FunctionHTTPMethod}"/>
-					<Text text="{ViewFunctions>/functionBinded/httpMethod}"/>
+					<Text text="{ViewFunctions>/functionBinded/httpMethod}" emptyIndicatorMode="On"/>
 					<Label text="{i18n>FunctionReturnType}"/>
-					<Text text="{ViewFunctions>/functionBinded/returnType}"/>
+					<Text text="{ViewFunctions>/functionBinded/returnType}" emptyIndicatorMode="On"/>
 					<!-- TODO Gestire complex type e return type -->
 				</form:content>
 			</form:SimpleForm>

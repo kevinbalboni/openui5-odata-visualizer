@@ -39,7 +39,7 @@ sap.ui.define([
 				this.getModel("ViewDatas").setProperty("/isPhone", oDevice.name === "Phone");
 			}.bind(this));
 
-			setTimeout(function () {
+			/* setTimeout(function () {
 
 				var oModel = this.getOwnerComponent().getModel("services");
 				var bindingElementList = new Binding(oModel, "/", oModel.getContext("/selectedService"));
@@ -50,7 +50,7 @@ sap.ui.define([
 
 				this._refresh(oModel);
 
-			}.bind(this), 1000);
+			}.bind(this), 1000); */
 		},
 
 		_refresh: function (oModel) {

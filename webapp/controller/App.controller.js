@@ -249,12 +249,7 @@ sap.ui.define([
 				}
 			}
 
-			/* 
-						if (oService.url.slice(-1) !== "/") {
-							sURL = oService.url + "/";
-						} */
-
-			var oDataModel = new sap.ui.model.odata.v2.ODataModel(sURL, {
+			var oDataModel = new ODataModelV2(sURL, {
 				useBatch: false
 			});
 			oDataModel.setSizeLimit(1000000);
@@ -286,54 +281,7 @@ sap.ui.define([
 				this.getView().setBusy(false);
 			}.bind(this));
 
-			/* $.ajax({
-				url: sURL + "$metadata",
-				type: "GET",
-				//crossDomain: true,
-				//headers: { 'Access-Control-Allow-Origin': 'services.odata.org' },
-				dataType: 'text',
-				contentType: "application/x-www-form-urlencoded",
-				success: function (oData, oResponse) {
-					this.getView().setBusy(false);
-					this.getLogger(this.getControllerName()).info("metadataLoaded - SUCCESS");
-					oService.metadata_formatted = this.formatXml(oData);
-
-					let otest = {
-						//odata: this.oModel.odata,
-						metadataString: metadataUtils.formatXml(oData),
-						metadataForDetails: metadataUtils.getParsedMetadataForDetails(this.oModel.odata.getServiceMetadata()),
-						metadataForDiagram: metadataUtils.getParsedMetadataForDiagram(this.oModel.odata.getServiceMetadata()),
-						metadataForServices: metadataUtils.getParsedMetadataForServices(this.oModel.odata.getServiceMetadata()),
-						error: false
-					};
-
-					oService.metadata = oData;
-				}.bind(this),
-				error: function (oError) { //TODO gestire oError e visualizzarlo
-					this.getLogger(this.getControllerName()).info("metadataLoaded - ERROR");
-
-					MessageBox.error(this.getI18nText("MetadataError"), {
-						title: this.getI18nText("MetadataError"),
-						actions: MessageBox.Action.CLOSE,
-						emphasizedAction: MessageBox.Action.CLOSE
-					});
-					this.getView().setBusy(false);
-				}.bind(this)
-			}); */
-
 		}
-
-		/* formatXml: function (xml, tab) {
-			var formatted = "",
-				indent = "";
-			tab = tab || "\t";
-			xml.split(/>\s*</).forEach(function (node) {
-				if (node.match(/^\/\w/)) { indent = indent.substring(tab.length); } // decrease indent by one 'tab'
-				formatted += indent + "<" + node + ">\r\n";
-				if (node.match(/^<?\w[^>]*[^\/]$/)) { indent += tab; } // increase indent
-			});
-			return formatted.substring(1, formatted.length - 3);
-		} */
 
 	});
 });

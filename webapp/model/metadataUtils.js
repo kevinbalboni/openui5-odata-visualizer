@@ -139,6 +139,33 @@ sap.ui.define([], function () {
         return aFunctionImport;
     }
 
+    function getComplexTypes(e, bArray) {
+        let aComplexTypes = [];
+        let aComplexTypesMetadata = [];
+
+        try {
+            aComplexTypesMetadata = e.dataServices.schema.find(e => Array.isArray(e.complexType)).complexType || [];
+        } catch (e) {
+
+        }
+        if (aComplexTypesMetadata && Array.isArray(aComplexTypesMetadata)) {
+            aComplexTypesMetadata.forEach(e => {
+                if (bArray) {
+                    aComplexTypes.push({
+                        name: e.name,
+                        property: e.property
+                    });
+                } else {
+                    aComplexTypes[e.name] = {
+                        name: e.name,
+                        property: e.property
+                    };
+                }
+            });
+        }
+        return aComplexTypes;
+    }
+
     function getEntitiesList(e) {
         let aEntityType = [];
         let aEntitySet = [];
@@ -147,7 +174,7 @@ sap.ui.define([], function () {
         try {
             aEntityType = e.dataServices.schema.find(e => Array.isArray(e.entityType) && e.entityType.length > 0).entityType;
             aEntitySet = e.dataServices.schema.find(e => Array.isArray(e.entityContainer) && e.entityContainer.length > 0).entityContainer.find(e => e.isDefaultEntityContainer).entitySet;
-        } catch (e) {
+        } catch (error) {
 
         }
 
@@ -179,6 +206,8 @@ sap.ui.define([], function () {
             entitiesList: getEntitiesList(e),
             functions: getFunctionImport(e),
             functionsList: getFunctionImport(e, true),
+            complexTypes: getComplexTypes(e),
+            complexTypesList: getComplexTypes(e, true),
             versions: getVersions(e)
         };
     }

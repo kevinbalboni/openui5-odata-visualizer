@@ -1,7 +1,7 @@
 # OData Visualizer
 <img src="https://raw.githubusercontent.com/kevinbalboni/openui5-odata-visualizer/main/webapp/img/Logo_trasparente_piccolo_new.png" width="200" heigth="200">
 
-A simple tool to explore OData services
+A simple tool to explore V2 OData services
 
 Try <a href="https://kevinbalboni.github.io/openui5-odata-visualizer/" target="_blank">Live Demo</a>
 
@@ -9,8 +9,13 @@ Try <a href="https://kevinbalboni.github.io/openui5-odata-visualizer/" target="_
 
 - [X] Export all tables to CSV/Excel
 - [X] Export metadata to file
+- [ ] Basic authentication for OData Services
+- [ ] Custom header for Odata Services
 - [ ] Function (Bounded or Unbounded)
-- [ ] Complex Types support
+- [ ] Navigation from Function parameters to Complex Types
+- [X] Complex Types support
+  - [] Complex Types navigation
+- [ ] How to display field "Nullable" if missing 
 - [ ] Data Browser with OData Client simulator 
   - [ ] GET
   - [ ] POST/PUT (not sure)

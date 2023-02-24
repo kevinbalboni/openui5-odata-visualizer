@@ -60,7 +60,11 @@ sap.ui.define([
     }
 
     function StartExport(sKey, aDatas, sFileName, sFileName2) {
-        aDatas.sort((a, b) => a.order - b.order); //TODO check if order exist
+        if (!aDatas || !Array.isArray(aDatas)) {
+            //TODO Error message
+            return;
+        }
+        aDatas.sort((a, b) => a.order - b.order);
 
         let sFileNameComplete = getFileName(sFileName, sFileName2);
         if (sKey === "EXCEL") {

@@ -40,6 +40,9 @@ sap.ui.define([
                     case "functions":
                         aNavigations.navigations[bk].title = this.getModel("i18n").getResourceBundle().getText("Functions");
                         break;
+                    case "complexTypes":
+                        aNavigations.navigations[bk].title = this.getModel("i18n").getResourceBundle().getText("ComplexTypes");
+                        break;
                     case "datas":
                         aNavigations.navigations[bk].title = this.getModel("i18n").getResourceBundle().getText("Datas");
                         break;

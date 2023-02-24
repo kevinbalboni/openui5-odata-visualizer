@@ -118,6 +118,11 @@
                     "target": "functions"
                 },
                 {
+                    "pattern": "complexTypes",
+                    "name": "complexTypes",
+                    "target": "complexTypes"
+                },
+                {
                     "pattern": "datas",
                     "name": "datas",
                     "target": "datas"
@@ -149,6 +154,10 @@
                 "functions": {
                     "viewId": "functions",
                     "viewName": "Functions"
+                },
+                "complexTypes": {
+                    "viewId": "complexTypes",
+                    "viewName": "ComplexTypes"
                 },
                 "datas": {
                     "viewId": "datas",

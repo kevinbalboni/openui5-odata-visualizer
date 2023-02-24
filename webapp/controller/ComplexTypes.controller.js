@@ -20,7 +20,7 @@ sap.ui.define([
 	Label, Text, MessageBox, Input, InputType, SimpleForm, Binding, Column, Sorter) {
 	"use strict";
 
-	return BaseController.extend("openui5-odata-visualizer.controller.Functions", {
+	return BaseController.extend("openui5-odata-visualizer.controller.ComplexTypes", {
 
 		onInit: function () {
 			this.getLogger(this.getControllerName()).info("onInit");
@@ -29,12 +29,12 @@ sap.ui.define([
 			let oViewModel = new JSONModel({
 				isPhone: Device.system.phone
 			});
-			this.setModel(oViewModel, "ViewFunctions");
+			this.setModel(oViewModel, "ViewComplexTypes");
 
-			this.getRouter().getRoute("functions").attachMatched(function (oEvent) {
+			this.getRouter().getRoute("complexTypes").attachMatched(function (oEvent) {
 
 				let oModel = this.getModel("services");
-				let bindingElementList = new Binding(oModel, "/", oModel.getContext("/selectedFunction"));
+				let bindingElementList = new Binding(oModel, "/", oModel.getContext("/selectedComplexType"));
 				bindingElementList.attachChange(function (oEventChange) {
 					this._clearFilters();
 					this._bindRows();
@@ -44,30 +44,30 @@ sap.ui.define([
 			}.bind(this));
 
 			Device.media.attachHandler(function (oDevice) {
-				this.getModel("ViewFunctions").setProperty("/isPhone", oDevice.name === "Phone");
+				this.getModel("ViewComplexTypes").setProperty("/isPhone", oDevice.name === "Phone");
 			}.bind(this));
 		},
 
 		_bindRows: function () {
 
-			let sBindEntity = this.getModel("services").getProperty("/selectedFunction");
-			let aEntities = this.getModel("services").getProperty("/selectedService/metadataForDetails/functionsList");
+			let sBindEntity = this.getModel("services").getProperty("/selectedComplexType");
+			let aEntities = this.getModel("services").getProperty("/selectedService/metadataForDetails/complexTypesList");
 
 			if (!aEntities) {
 				return;
 			}
 
-			this.getModel("ViewFunctions").setProperty("/functionBinded", null);
+			this.getModel("ViewComplexTypes").setProperty("/complexTypeBinded", null);
 
 			let oEntity = aEntities.find(x => x.name === sBindEntity);
 			if (!oEntity) {
 				return;
 			}
 
-			this.getModel("ViewFunctions").setProperty("/functionBinded", oEntity);
+			this.getModel("ViewComplexTypes").setProperty("/complexTypeBinded", oEntity);
 
-			this.byId("FunctionsTable").bindRows({
-				path: "services>/selectedService/metadataForDetails/functions/" + sBindEntity + "/parameters",
+			this.byId("ComplexTypesTable").bindRows({
+				path: "services>/selectedService/metadataForDetails/complexTypes/" + sBindEntity + "/property",
 				parameters: {
 					operationMode: "Client"
 				},
@@ -83,18 +83,18 @@ sap.ui.define([
 
 		onRowsUpdate: function (oEvent) {
 			let iCount = oEvent.getSource().getBinding("rows").getLength();
-			let sFunctionBinded = this.getModel("ViewFunctions").getProperty("/functionBinded/name");
-			let sTitle = this.getI18nText("FunctionsTableTitle", [sFunctionBinded ? sFunctionBinded : "", iCount]);
-			this.getModel("ViewFunctions").setProperty("/TableTitle", sTitle);
-			this.autoResizeColumns("FunctionsTable");
+			let sComplexTypeBinded = this.getModel("ViewComplexTypes").getProperty("/complexTypeBinded/name");
+			let sTitle = this.getI18nText("ComplexTypesTableTitle", [sComplexTypeBinded ? sComplexTypeBinded : "", iCount]);
+			this.getModel("ViewComplexTypes").setProperty("/TableTitle", sTitle);
+			this.autoResizeColumns("ComplexTypesTable");
 		},
 
-		onChangeFunction: function () {
+		onChangeComplexType: function () {
 			this._clearFilters();
 			this._bindRows();
 		},
 
-		onFunctionSearch: function (oEvent) {
+		onComplexTypesSearch: function (oEvent) {
 			let aFields = ["name", "type", "nullable", "maxLength", "precision", "scale"];
 			let sSearchValue = oEvent.getSource().getValue();
 			let oFilterAll = [];
@@ -121,23 +121,23 @@ sap.ui.define([
 				}
 			}
 
-			this.byId("FunctionsTable").getBinding("rows").filter(oFilterAll);
+			this.byId("ComplexTypesTable").getBinding("rows").filter(oFilterAll);
 			jQuery.sap.delayedCall(200, this, function () {
-				this.byId("SearchFunctions").focus();
+				this.byId("SerachComplexTypes").focus();
 			});
 		},
 
-		onFunctionExportToFile: function (oEvent) {
+		onComplexTypeExportToFile: function (oEvent) {
 			let sKey = oEvent.getParameter("item").getKey();
-			let sBindingPath = this.byId("FunctionsTable").getBinding().getPath();
+			let sBindingPath = this.byId("ComplexTypesTable").getBinding().getPath();
 			let aProperties = this.getModel("services").getProperty(sBindingPath);
-			let sFunctionBinded = this.getModel("ViewFunctions").getProperty("/functionBinded/name");
+			let scomplexTypeBinded = this.getModel("ViewComplexTypes").getProperty("/complexTypeBinded/name");
 
-			tableExport.export(sKey, aProperties, this.getI18nText("Function"), sFunctionBinded);
+			tableExport.export(sKey, aProperties, this.getI18nText("ComplexType"), scomplexTypeBinded);
 		},
 
 		_clearFilters: function () {
-			let oTable = this.byId("FunctionsTable");
+			let oTable = this.byId("ComplexTypesTable");
 			let oTableBinding = oTable.getBinding();
 			let oTableColumns = oTable.getColumns();
 			if (oTableBinding) {
@@ -149,7 +149,7 @@ sap.ui.define([
 				oTableColumns[bk].setFilterValue("");
 				oTableColumns[bk].setFiltered(false);
 			}
-			this.byId("SearchFunctions").setValue("").fireLiveChange();
+			this.byId("SerachComplexTypes").setValue("").fireLiveChange();
 		}
 
 	});
