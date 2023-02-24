@@ -6,38 +6,38 @@
 	xmlns:core="sap.ui.core"
 	xmlns:tnt="sap.tnt"
 	xmlns="sap.m">
-    <tnt:ToolPage id="app">
-        <tnt:header>
-            <tnt:ToolHeader>
-                <Button
+	<tnt:ToolPage id="app">
+		<tnt:header>
+			<tnt:ToolHeader>
+				<Button
 					id="sideNavigationToggleButton"
 					icon="sap-icon://menu2"
 					type="Transparent"
 					press="onSideNavButtonPress"
 					tooltip="{i18n>navigationToggleButtonTooltip}">
-                    <layoutData>
-                        <OverflowToolbarLayoutData priority="NeverOverflow"/>
-                    </layoutData>
-                </Button>
-                <Button
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+				<Button
 					text="{i18n>userHeaderTheme}"
 					press="onChangeTheme"
 					icon="sap-icon://palette">
-                    <layoutData>
-                        <OverflowToolbarLayoutData priority="NeverOverflow"/>
-                    </layoutData>
-                </Button>
-                <ToolbarSpacer/>
-                <Title text="{i18n>appTitle1}" visible="{= ${appView>/isPhone} ? false : true}"/>
-                <Image id="AppImageStudioLogoWispinEGO" src="img/favicon.ico" width="40px" height="40px" press="onHomeIconPressed" densityAware= "false">
-                    <!-- TODO convertire icona img/favicon.ico -->
-                    <layoutData>
-                        <OverflowToolbarLayoutData priority="NeverOverflow"/>
-                    </layoutData>
-                </Image>
-                <Title text="{i18n>appTitle2}" visible="{= ${appView>/isPhone} ? false : true}"/>
-                <ToolbarSpacer/>
-                <!-- <tnt:InfoLabel 
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+				<ToolbarSpacer/>
+				<Title text="{i18n>appTitle1}" visible="{= ${appView>/isPhone} ? false : true}"/>
+				<Image id="AppImageStudioLogoWispinEGO" src="img/Logo_trasparente_piccolo_40x40.png" width="40px" height="40px" press="onHomeIconPressed" densityAware= "false">
+					<!-- TODO convertire icona img/favicon.ico -->
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Image>
+				<Title text="{i18n>appTitle2}" visible="{= ${appView>/isPhone} ? false : true}"/>
+				<ToolbarSpacer/>
+				<!-- <tnt:InfoLabel 
                     text="K-develop" 
                     colorScheme="8"
                     visible="true"/>
@@ -45,8 +45,8 @@
 						displaySize="XS"
                         press="onUserNamePress"
                         backgroundColor="Random"/> -->
-                <Title text="{i18n>OData}" visible="{= ${appView>/isPhone} ? false : true}"/>
-                <Select enabled="true"
+				<Title text="{i18n>OData}" visible="{= ${appView>/isPhone} ? false : true}"/>
+				<Select enabled="true"
 						showSecondaryValues="true"
 						autoAdjustWidth="true"
 						wrapItemsText="true"
@@ -58,19 +58,19 @@
 							sorter : [{ path: 'name', descending: false }] ,
 							templateShareable: false
 						}">
-                    <core:ListItem key="{services>ID}" text="{services>name}" additionalText="{services>url}"/>
-                </Select>
-                <Button
+					<core:ListItem key="{services>ID}" text="{services>name}" additionalText="{services>url}"/>
+				</Select>
+				<Button
 					icon="sap-icon://synchronize"
 					type="Transparent"
 					press="onChangeSelectedService">
-                    <layoutData>
-                        <OverflowToolbarLayoutData priority="NeverOverflow"/>
-                    </layoutData>
-                </Button>
-            </tnt:ToolHeader>
-        </tnt:header>
-        <!-- <tnt:subHeader>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+			</tnt:ToolHeader>
+		</tnt:header>
+		<!-- <tnt:subHeader>
 			<tnt:ToolHeader width="100%" height="50px">
 				<Title text="{i18n>OData}" visible="{= ${appView>/isPhone} ? false : true}"/>
 				<Select enabled="true"
@@ -87,16 +87,16 @@
 				</Select>
 			</tnt:ToolHeader>
 		</tnt:subHeader> -->
-        <tnt:sideContent>
-            <tnt:SideNavigation
+		<tnt:sideContent>
+			<tnt:SideNavigation
 				expanded="true"
 				itemSelect="onItemSelect">
-                <tnt:NavigationList
+				<tnt:NavigationList
 					items="{
 						path: 'menuNavigations>/navigations',
 						templateShareable: false
 					}">
-                    <tnt:NavigationListItem
+					<tnt:NavigationListItem
 						text="{menuNavigations>title}"
 						icon="{menuNavigations>icon}"
 						expanded="{menuNavigations>expanded}"
@@ -106,33 +106,33 @@
 							templateShareable: false
 						}"
 						key="{menuNavigations>key}">
-                        <tnt:NavigationListItem
+						<tnt:NavigationListItem
 							text="{menuNavigations>title}"
 							key="{menuNavigations>key}"
                             visible="{menuNavigations>visible}"/>
-                        <tnt:customData>
-                            <core:CustomData key="folder" 
+						<tnt:customData>
+							<core:CustomData key="folder" 
 											value="{menuNavigations>isFolder}"/>
-                        </tnt:customData>
-                    </tnt:NavigationListItem>
-                </tnt:NavigationList>
-                <tnt:fixedItem>
-                    <tnt:NavigationList
+						</tnt:customData>
+					</tnt:NavigationListItem>
+				</tnt:NavigationList>
+				<tnt:fixedItem>
+					<tnt:NavigationList
 						items="{
 							path: 'menuNavigations>/fixedNavigations',
 							templateShareable: false
 						}">
-                        <tnt:NavigationListItem
+						<tnt:NavigationListItem
 							text="{menuNavigations>title}"
 							icon="{menuNavigations>icon}"
 							visible="{menuNavigations>visible}"
 							key="{menuNavigations>key}"/>
-                    </tnt:NavigationList>
-                </tnt:fixedItem>
-            </tnt:SideNavigation>
-        </tnt:sideContent>
-        <tnt:mainContents>
-            <App id="mainContents"/>
-        </tnt:mainContents>
-    </tnt:ToolPage>
+					</tnt:NavigationList>
+				</tnt:fixedItem>
+			</tnt:SideNavigation>
+		</tnt:sideContent>
+		<tnt:mainContents>
+			<App id="mainContents"/>
+		</tnt:mainContents>
+	</tnt:ToolPage>
 </mvc:View>
