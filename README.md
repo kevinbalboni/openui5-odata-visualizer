@@ -7,7 +7,9 @@ Try <a href="https://kevinbalboni.github.io/openui5-odata-visualizer/" target="_
 
 ## Roadmap
 
-- [ ] Export all tables to CSV/Excel
+- [X] Export all tables to CSV/Excel
+- [X] Export metadata to file
+- [ ] Function (Bounded or Unbounded)
 - [ ] Complex Types support
 - [ ] Data Browser with OData Client simulator 
   - [ ] GET

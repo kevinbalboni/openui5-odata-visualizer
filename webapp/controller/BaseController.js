@@ -81,8 +81,8 @@ sap.ui.define([
 			if (oTable) {
 				let aColumns = oTable.getColumns();
 				if (aColumns && Array.isArray(aColumns)) {
-					for (let i = aColumns.length - 1; i >= 0; i--) {
-						oTable.autoResizeColumn(i);
+					for (let bk = aColumns.length - 1; bk >= 0; bk--) {
+						oTable.autoResizeColumn(bk);
 					}
 				}
 			}

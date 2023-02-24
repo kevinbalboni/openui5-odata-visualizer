@@ -42,7 +42,7 @@
 					<!-- TODO Gestire complex type e return type -->
 				</form:content>
 			</form:SimpleForm>
-			<Panel height="90%" backgroundDesign="Transparent" class="sapUiNoContentPadding">
+			<Panel height="75%" backgroundDesign="Transparent" class="sapUiNoContentPadding">
 				<uiTable:Table id="FunctionsTable" selectionMode="None" visibleRowCountMode="Auto" 
 							enableSelectAll="false"	alternateRowColors="true" editable="false" 
 							enableBusyIndicator="false" showColumnVisibilityMenu="false"
@@ -51,15 +51,14 @@
 						<OverflowToolbar>
 							<Title text="{ViewFunctions>/TableTitle}"/>
 							<ToolbarSpacer/>
-							<!-- TODO
 							<MenuButton icon="sap-icon://excel-attachment" type="Transparent">
 								<menu>
-									<Menu itemSelected="onMenuExportAction">
-										<MenuItem key="EXCEL" text="{i18n>LogsExportExcel}"/>
-										<MenuItem key="CSV" text="{i18n>LogsExportCSV}"/>
+									<Menu itemSelected="onFunctionExportToFile">
+										<MenuItem key="EXCEL" text="{i18n>ExportExcel}"/>
+										<MenuItem key="CSV" text="{i18n>ExportCSV}"/>
 									</Menu>
 								</menu>
-							</MenuButton> -->
+							</MenuButton>
 							<ToolbarSeparator/>
 							<SearchField id="SearchFunctions" search="onFunctionSearch" width="auto" showRefreshButton="true" />
 						</OverflowToolbar>

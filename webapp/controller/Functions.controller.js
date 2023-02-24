@@ -1,5 +1,6 @@
 sap.ui.define([
 	"openui5-odata-visualizer/controller/BaseController",
+	"openui5-odata-visualizer/model/tableExport",
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
@@ -15,7 +16,7 @@ sap.ui.define([
 	"sap/ui/model/Binding",
 	"sap/ui/table/Column",
 	"sap/ui/model/Sorter"
-], function (BaseController, JSONModel, Filter, FilterOperator, Device, Dialog, Button,
+], function (BaseController, tableExport, JSONModel, Filter, FilterOperator, Device, Dialog, Button,
 	Label, Text, MessageBox, Input, InputType, SimpleForm, Binding, Column, Sorter) {
 	"use strict";
 
@@ -79,8 +80,8 @@ sap.ui.define([
 
 		onRowsUpdate: function (oEvent) {
 			var iCount = oEvent.getSource().getBinding("rows").getLength();
-			var sEntityBinded = this.getModel("ViewFunctions").getProperty("/functionBinded/name");
-			var sTitle = this.getI18nText("FunctionsTableTitle", [sEntityBinded, iCount]);
+			var sFunctionBinded = this.getModel("ViewFunctions").getProperty("/functionBinded/name");
+			var sTitle = this.getI18nText("FunctionsTableTitle", [sFunctionBinded, iCount]);
 			this.getModel("ViewFunctions").setProperty("/TableTitle", sTitle);
 			this.autoResizeColumns("FunctionsTable");
 		},
@@ -123,6 +124,15 @@ sap.ui.define([
 			});
 		},
 
+		onFunctionExportToFile: function (oEvent) {
+			let sKey = oEvent.getParameter("item").getKey();
+			let sBindingPath = this.byId("FunctionsTable").getBinding().getPath();
+			let aProperties = this.getModel("services").getProperty(sBindingPath);
+			var sFunctionBinded = this.getModel("ViewFunctions").getProperty("/functionBinded/name");
+
+			tableExport.export(sKey, aProperties, this.getI18nText("Function"), sFunctionBinded);
+		},
+
 		_clearFilters: function () {
 			let oTable = this.byId("FunctionsTable");
 			let oTableBinding = oTable.getBinding();
@@ -131,10 +141,10 @@ sap.ui.define([
 				oTableBinding.aSorters = null;
 				oTableBinding.aFilters = null;
 			}
-			for (let k = 0; k < oTableColumns.length; k++) {
-				oTableColumns[k].setSorted(false);
-				oTableColumns[k].setFilterValue("");
-				oTableColumns[k].setFiltered(false);
+			for (let bk = 0; bk < oTableColumns.length; bk++) {
+				oTableColumns[bk].setSorted(false);
+				oTableColumns[bk].setFilterValue("");
+				oTableColumns[bk].setFiltered(false);
 			}
 			this.byId("SearchFunctions").setValue("").fireLiveChange();
 		}

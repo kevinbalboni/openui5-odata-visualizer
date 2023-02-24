@@ -50,5 +50,15 @@ sap.ui.define([
 			this.getModel("services").setProperty("/selectedService", oService.metadata_formatted);
 		} */
 
+		onSaveMetadata: function () {
+			let oSelectedService = this.getModel("services").getProperty("/selectedService");
+			let encodedUri = encodeURI("data:Application/octet-stream;charset=utf-8," + oSelectedService.metadata);
+			let link = document.createElement("a");
+			link.setAttribute("href", encodedUri);
+			link.setAttribute("download", oSelectedService.name + ".xml");
+			document.body.appendChild(link);
+			link.click();
+		}
+
 	});
 });

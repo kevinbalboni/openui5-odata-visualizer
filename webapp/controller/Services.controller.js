@@ -94,7 +94,7 @@ sap.ui.define([
 								}.bind(this),
 								submit: function () {
 									sap.ui.getCore().byId("NewServiceURL").focus();
-								}.bind(this)
+								}
 							}),
 							new Label({
 								required: true,
@@ -118,7 +118,7 @@ sap.ui.define([
 										oDialogServicesCreate.getBeginButton().firePress();
 									}
 								}
-							}),
+							})
 						]
 					})],
 				beginButton: new Button({
@@ -205,8 +205,8 @@ sap.ui.define([
 								id: "EditServiceName",
 								maxLength: 40,
 								value: "{EditService>/name}",
-								liveChange: function (oEvent) {
-									let sText = oEvent.getParameter("value").trim();
+								liveChange: function (oEventLiveChange) {
+									let sText = oEventLiveChange.getParameter("value").trim();
 									this.getModel("EditService").setProperty("/name", sText);
 									let oEditService = this.getModel("EditService").getData();
 									let oInputName = sap.ui.getCore().byId("EditServiceName");
@@ -215,7 +215,7 @@ sap.ui.define([
 								}.bind(this),
 								submit: function () {
 									sap.ui.getCore().byId("EditServiceURL").focus();
-								}.bind(this)
+								}
 							}),
 							new Label({
 								required: true,
@@ -225,8 +225,8 @@ sap.ui.define([
 								id: "EditServiceURL",
 								value: "{EditService>/url}",
 								type: InputType.Url,
-								liveChange: function (oEvent) {
-									let sText = oEvent.getParameter("value").trim();
+								liveChange: function (oEventLiveChange) {
+									let sText = oEventLiveChange.getParameter("value").trim();
 									this.getModel("EditService").setProperty("/url", sText);
 									let oEditService = this.getModel("EditService").getData();
 									let oInputName = sap.ui.getCore().byId("EditServiceName");
@@ -239,7 +239,7 @@ sap.ui.define([
 										oDialogServicesEdit.getBeginButton().firePress();
 									}
 								}
-							}),
+							})
 						]
 					})],
 				beginButton: new Button({
@@ -337,13 +337,13 @@ sap.ui.define([
 		isValidURL: function (sUrl) {
 			var t = document.createElement("a");
 			t.href = sUrl;
-			return t.host && t.host != window.location.host
+			return t.host && t.host !== window.location.host;
 		}
 
 		/* URLAlreadyExist: function (e) {
 			var oServices = this.getModel("services").getProperty("/services");
-			for (var i = 0; i < t.length; i++) {
-				if (t[i].Address === e && i != this.iLastRowIndex) {
+			for (let bk = 0; bk < t.length; bk++) {
+				if (t[bk].Address === e && bk != this.iLastRowIndex) {
 					return true
 				}
 			}

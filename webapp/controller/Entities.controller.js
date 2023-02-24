@@ -1,5 +1,6 @@
 sap.ui.define([
 	"openui5-odata-visualizer/controller/BaseController",
+	"openui5-odata-visualizer/model/tableExport",
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
@@ -15,7 +16,7 @@ sap.ui.define([
 	"sap/ui/model/Binding",
 	"sap/ui/table/Column",
 	"sap/ui/model/Sorter"
-], function (BaseController, JSONModel, Filter, FilterOperator, Device, Dialog, Button,
+], function (BaseController, tableExport, JSONModel, Filter, FilterOperator, Device, Dialog, Button,
 	Label, Text, MessageBox, Input, InputType, SimpleForm, Binding, Column, Sorter) {
 	"use strict";
 
@@ -25,15 +26,15 @@ sap.ui.define([
 			this.getLogger(this.getControllerName()).info("onInit");
 			BaseController.prototype.onInit.apply(this, arguments);
 
-			var oViewModel = new JSONModel({
+			let oViewModel = new JSONModel({
 				isPhone: Device.system.phone
 			});
 			this.setModel(oViewModel, "ViewEntities");
 
 			this.getRouter().getRoute("entities").attachMatched(function (oEvent) {
 
-				var oModel = this.getModel("services");
-				var bindingElementList = new Binding(oModel, "/", oModel.getContext("/selectedEntity"));
+				let oModel = this.getModel("services");
+				let bindingElementList = new Binding(oModel, "/", oModel.getContext("/selectedEntity"));
 				bindingElementList.attachChange(function (oEventChange) {
 					this._bindEntitiesRows();
 				}.bind(this));
@@ -83,9 +84,9 @@ sap.ui.define([
 		},
 
 		onEntitiesRowsUpdate: function (oEvent) {
-			var iCount = oEvent.getSource().getBinding("rows").getLength();
-			var sEntityBinded = this.getModel("ViewEntities").getProperty("/entityBindedKey");
-			var sTitle = this.getI18nText("EntitiesTableTitle", [sEntityBinded, iCount]);
+			let iCount = oEvent.getSource().getBinding("rows").getLength();
+			let sEntityBinded = this.getModel("ViewEntities").getProperty("/entityBindedKey");
+			let sTitle = this.getI18nText("EntitiesTableTitle", [sEntityBinded, iCount]);
 			this.getModel("ViewEntities").setProperty("/TableTitle", sTitle);
 			this.autoResizeColumns("EntitiesTable");
 		},
@@ -111,10 +112,10 @@ sap.ui.define([
 					and: false
 				});
 
-				for (let xx = 0; xx < aFields.length; xx++) {
+				for (let bk = 0; bk < aFields.length; bk++) {
 					oFilterAll.aFilters.push(
 						new Filter({
-							path: aFields[xx],
+							path: aFields[bk],
 							operator: FilterOperator.Contains,
 							value1: sSearchValue,
 							caseSensitive: false
@@ -128,6 +129,15 @@ sap.ui.define([
 			});
 		},
 
+		onEntityExportToFile: function (oEvent) {
+			let sKey = oEvent.getParameter("item").getKey();
+			let sBindingPath = this.byId("EntitiesTable").getBinding().getPath();
+			let aProperties = this.getModel("services").getProperty(sBindingPath);
+			let sEntityBinded = this.getModel("ViewEntities").getProperty("/entityBindedKey");
+
+			tableExport.export(sKey, aProperties, this.getI18nText("Entity"), sEntityBinded);
+		},
+
 		_clearFilters: function () {
 			let oTable = this.byId("EntitiesTable");
 			let oTableBinding = oTable.getBinding();
@@ -136,10 +146,10 @@ sap.ui.define([
 				oTableBinding.aSorters = null;
 				oTableBinding.aFilters = null;
 			}
-			for (let k = 0; k < oTableColumns.length; k++) {
-				oTableColumns[k].setSorted(false);
-				oTableColumns[k].setFilterValue("");
-				oTableColumns[k].setFiltered(false);
+			for (let bk = 0; bk < oTableColumns.length; bk++) {
+				oTableColumns[bk].setSorted(false);
+				oTableColumns[bk].setFilterValue("");
+				oTableColumns[bk].setFiltered(false);
 			}
 			this.byId("SearchEntities").setValue("").fireLiveChange();
 		}

@@ -26,33 +26,33 @@ sap.ui.define([
                 fixedNavigations: this.getModel("menu_navigations").getProperty("/fixedNavigations")
             };
 
-            for (let i = 0; i < aNavigations.navigations.length; i++) {
-                switch (aNavigations.navigations[i].key) {
+            for (let bk = 0; bk < aNavigations.navigations.length; bk++) {
+                switch (aNavigations.navigations[bk].key) {
                     case "home":
-                        aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Home");
+                        aNavigations.navigations[bk].title = this.getModel("i18n").getResourceBundle().getText("Home");
                         break;
                     case "services":
-                        aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Services");
+                        aNavigations.navigations[bk].title = this.getModel("i18n").getResourceBundle().getText("Services");
                         break;
                     case "entities":
-                        aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Entities");
+                        aNavigations.navigations[bk].title = this.getModel("i18n").getResourceBundle().getText("Entities");
                         break;
                     case "functions":
-                        aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Functions");
+                        aNavigations.navigations[bk].title = this.getModel("i18n").getResourceBundle().getText("Functions");
                         break;
                     case "datas":
-                        aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Datas");
+                        aNavigations.navigations[bk].title = this.getModel("i18n").getResourceBundle().getText("Datas");
                         break;
                     case "metadata":
-                        aNavigations.navigations[i].title = this.getModel("i18n").getResourceBundle().getText("Metadata");
+                        aNavigations.navigations[bk].title = this.getModel("i18n").getResourceBundle().getText("Metadata");
                         break;
                 }
             }
 
-            for (let i = 0; i < aNavigations.fixedNavigations.length; i++) {
-                switch (aNavigations.fixedNavigations[i].key) {
+            for (let bk = 0; bk < aNavigations.fixedNavigations.length; bk++) {
+                switch (aNavigations.fixedNavigations[bk].key) {
                     case "credits":
-                        aNavigations.fixedNavigations[i].title = this.getModel("i18n").getResourceBundle().getText("Credits");
+                        aNavigations.fixedNavigations[bk].title = this.getModel("i18n").getResourceBundle().getText("Credits");
                         break;
                 }
             }

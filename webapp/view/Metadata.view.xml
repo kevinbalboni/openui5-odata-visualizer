@@ -8,6 +8,17 @@
     xmlns:card="sap.f.cards" 
 	xmlns:codeeditor="sap.ui.codeeditor" >
 	<Page showHeader="true" title="{i18n>Metadata}">
+		<customHeader>
+			<Bar>
+				<contentMiddle>
+					<Title text="{i18n>Metadata}" />
+				</contentMiddle>
+				<contentRight>
+					<Button icon="sap-icon://download-from-cloud" press="onSaveMetadata" 
+							enabled="{= ${services>/selectedService/metadata}.length > 0 ? true : false}"/>
+				</contentRight>
+			</Bar>
+		</customHeader>
 		<content>
 			<codeeditor:CodeEditor type="xml" editable="false" value="{services>/selectedService/metadata}" height="100%"/>
 		</content>

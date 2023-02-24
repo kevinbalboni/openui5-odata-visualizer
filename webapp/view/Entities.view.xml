@@ -37,7 +37,7 @@
 					</Select>
 				</form:content>
 			</form:SimpleForm>
-			<Panel height="90%" backgroundDesign="Transparent" class="sapUiNoContentPadding">
+			<Panel height="85%" backgroundDesign="Transparent" class="sapUiNoContentPadding">
 				<uiTable:Table id="EntitiesTable" selectionMode="None" visibleRowCountMode="Auto" 
 							enableSelectAll="false"	alternateRowColors="true" editable="false" 
 							enableBusyIndicator="false" showColumnVisibilityMenu="false"
@@ -46,15 +46,14 @@
 						<OverflowToolbar>
 							<Title text="{ViewEntities>/TableTitle}"/>
 							<ToolbarSpacer/>
-							<!-- TODO 
 							<MenuButton icon="sap-icon://excel-attachment" type="Transparent">
 								<menu>
-									<Menu itemSelected="onMenuExportAction">
-										<MenuItem key="EXCEL" text="{i18n>LogsExportExcel}"/>
-										<MenuItem key="CSV" text="{i18n>LogsExportCSV}"/>
+									<Menu itemSelected="onEntityExportToFile">
+										<MenuItem key="EXCEL" text="{i18n>ExportExcel}"/>
+										<MenuItem key="CSV" text="{i18n>ExportCSV}"/>
 									</Menu>
 								</menu>
-							</MenuButton> -->
+							</MenuButton>
 							<ToolbarSeparator/>
 							<SearchField id="SearchEntities" search="onEntitySearch" width="auto" showRefreshButton="true" />
 						</OverflowToolbar>

@@ -66,16 +66,16 @@ sap.ui.define([
 			let oEntity = oService.metadataForServices.Entitites.find(x => x.Name === oSelectedEntity);
 			let aColumns = [];
 
-			for (let k = 0; k < oEntity.Childs.length; k++) {
-				if (oEntity.Childs[k].Name === "properties") {
-					for (let z = 0; z < oEntity.Childs[k].Childs.length; z++) {
+			for (let bk = 0; bk < oEntity.Childs.length; bk++) {
+				if (oEntity.Childs[bk].Name === "properties") {
+					for (let zz = 0; zz < oEntity.Childs[bk].Childs.length; zz++) {
 
 						oTable.addColumn(new Column({
-							label: oEntity.Childs[k].Childs[z].Name,
-							template: this._cellTemplate(oEntity.Childs[k].Childs[z].Name),
+							label: oEntity.Childs[bk].Childs[zz].Name,
+							template: this._cellTemplate(oEntity.Childs[bk].Childs[zz].Name),
 							autoResizable: true,
-							filterProperty: oEntity.Childs[k].Childs[z].Name,
-							sortProperty: oEntity.Childs[k].Childs[z].Name
+							filterProperty: oEntity.Childs[bk].Childs[zz].Name,
+							sortProperty: oEntity.Childs[bk].Childs[zz].Name
 							/* tooltip: o["sap:label"] ? o["sap:label"] : o.name,
 							label: o.name,
 							template: this._cellTemplate(o),
