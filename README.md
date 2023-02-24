@@ -1,9 +1,21 @@
 # OData Visualizer
 <img src="https://raw.githubusercontent.com/kevinbalboni/openui5-odata-visualizer/main/webapp/img/Logo_trasparente_piccolo_new.png" width="200" heigth="200">
 
-A brief description of what this project does and who it's for
+A simple tool to explore OData services
 
 Try <a href="https://kevinbalboni.github.io/openui5-odata-visualizer/" target="_blank">Live Demo</a>
+
+## Roadmap
+
+- [ ] Export all tables to CSV/Excel
+- [ ] Complex Types support
+- [ ] Data Browser with OData Client simulator 
+  - [ ] GET
+  - [ ] POST/PUT (not sure)
+  - [ ] DELETE (not sure)
+  - [ ] Functions (not sure)
+- [ ] Graphical tool to visualize the structure of the OData service
+- [ ] OData V4 support
 
 ## Installation
 

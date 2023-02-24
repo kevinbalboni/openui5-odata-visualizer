@@ -25,7 +25,6 @@
 								height="35%"
 								densityAware= "false"
 								mode= "Image" />
-                            <!-- TODO sistemare dimensioni logo -->
                         </l:Grid>
                     </l:BlockLayoutCell>
                 </l:BlockLayoutRow>
