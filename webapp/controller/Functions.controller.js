@@ -89,6 +89,12 @@ sap.ui.define([
 			this.autoResizeColumns("FunctionsTable");
 		},
 
+		onNavToComplexType: function () {
+			let sComplexType = this.getModel("ViewFunctions").getProperty("/functionBinded/toComplexType");
+			this.getModel("services").setProperty("/selectedComplexType", sComplexType);
+			this.getRouter().navTo("complexTypes");
+		},
+
 		onChangeFunction: function () {
 			this._clearFilters();
 			this._bindRows();

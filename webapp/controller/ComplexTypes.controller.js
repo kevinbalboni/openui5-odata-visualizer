@@ -81,6 +81,11 @@ sap.ui.define([
 			});
 		},
 
+		onNavToComplexType: function (oEvent) {
+			let oLineSelected = oEvent.getSource().getBindingContext("services").getObject();
+			this.getModel("services").setProperty("/selectedComplexType", oLineSelected.toComplexType);
+		},
+
 		onRowsUpdate: function (oEvent) {
 			let iCount = oEvent.getSource().getBinding("rows").getLength();
 			let sComplexTypeBinded = this.getModel("ViewComplexTypes").getProperty("/complexTypeBinded/name");

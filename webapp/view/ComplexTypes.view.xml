@@ -68,7 +68,11 @@
 						<uiTable:Column sortProperty="type" filterProperty="type" autoResizable="true">
 							<Label text="{i18n>PropertyType}" />
 							<uiTable:template>
-								<Text text="{services>type}" wrapping="false"/>
+								<VBox>
+									<Text text="{services>type}" wrapping="false"/>
+									<Link text="{services>toComplexType}" press="onNavToComplexType" 
+										visible="{= ${services>toComplexType} ? true: false}"/>
+								</VBox>
 							</uiTable:template>
 						</uiTable:Column>
 						<uiTable:Column sortProperty="precision" filterProperty="precision" autoResizable="true">

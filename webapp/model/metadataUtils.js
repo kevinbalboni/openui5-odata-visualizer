@@ -96,6 +96,50 @@ sap.ui.define([], function () {
         return l;
     }
 
+    function getComplexType(value, aComplexTypesMetadata2) {
+        let oComplexType;
+
+        value = value.type || value;
+
+        if (aComplexTypesMetadata2.find(x => x.name === value)) {
+            oComplexType = aComplexTypesMetadata2.find(x => x.name === value);
+        } else if (value.toLowerCase().includes("collection")) {
+            let sType = value.split(".")[1];
+            oComplexType = aComplexTypesMetadata2.find(x => x.name === sType.slice(0, -1));
+        } else if (value.includes(".")) {
+            let sType = value.split(".")[1];
+            oComplexType = aComplexTypesMetadata2.find(x => x.name === sType);
+        }
+
+        return oComplexType;
+    }
+
+    function getProperties(property, aComplexTypesMetadata2) {
+
+        let oComplexType;
+
+        for (let bk = 0; bk < property.length; bk++) {
+
+            oComplexType = getComplexType(property[bk], aComplexTypesMetadata2);
+
+            /* if (aComplexTypesMetadata2.find(x => x.name === property[bk].type)) {
+                oComplexType = aComplexTypesMetadata2.find(x => x.name === property[bk].type);
+            } else if (property[bk].type.toLowerCase().includes("collection")) {
+                let sType = property[bk].type.split(".")[1];
+                oComplexType = aComplexTypesMetadata2.find(x => x.name === sType.slice(0, -1));
+            } else if (property[bk].type.includes(".")) {
+                let sType = property[bk].type.split(".")[1];
+                oComplexType = aComplexTypesMetadata2.find(x => x.name === sType);
+            } */
+
+            if (oComplexType) {
+                property[bk].toComplexType = oComplexType.name;
+            }
+        }
+
+        return property;
+    }
+
     function getEntities(e) {
         var t = {};
         var i = e.dataServices.schema.find(e => Array.isArray(e.association)).association || [];
@@ -107,7 +151,7 @@ sap.ui.define([], function () {
         return t;
     }
 
-    function getFunctionImport(e, bArray) {
+    function getFunctionImport(e, bArray, aComplexTypesList) {
         let aFunctionImport = [];
         let aFunctionImportMetadata = [];
 
@@ -118,23 +162,27 @@ sap.ui.define([], function () {
 
         }
         if (aFunctionImportMetadata && Array.isArray(aFunctionImportMetadata)) {
-            aFunctionImportMetadata.forEach(e => {
+            aFunctionImportMetadata.forEach(function (aComplexTypesList2, e) {
                 if (bArray) {
                     aFunctionImport.push({
                         name: e.name,
                         httpMethod: e.httpMethod,
                         returnType: e.returnType,
-                        parameters: e.parameter
+                        parameters: e.parameter,
+                        toComplexType: getComplexType(e.returnType, aComplexTypesList2) ?
+                            getComplexType(e.returnType, aComplexTypesList2).name : null
                     });
                 } else {
                     aFunctionImport[e.name] = {
                         name: e.name,
                         httpMethod: e.httpMethod,
                         returnType: e.returnType,
-                        parameters: e.parameter
+                        parameters: e.parameter,
+                        toComplexType: getComplexType(e.returnType, aComplexTypesList2) ?
+                            getComplexType(e.returnType, aComplexTypesList2).name : null
                     };
                 }
-            });
+            }.bind(null, aComplexTypesList));
         }
         return aFunctionImport;
     }
@@ -149,19 +197,19 @@ sap.ui.define([], function () {
 
         }
         if (aComplexTypesMetadata && Array.isArray(aComplexTypesMetadata)) {
-            aComplexTypesMetadata.forEach(e => {
+            aComplexTypesMetadata.forEach(function (aComplexTypesMetadata2, e) {
                 if (bArray) {
                     aComplexTypes.push({
                         name: e.name,
-                        property: e.property
+                        property: getProperties(e.property, aComplexTypesMetadata2)
                     });
                 } else {
                     aComplexTypes[e.name] = {
                         name: e.name,
-                        property: e.property
+                        property: getProperties(e.property, aComplexTypesMetadata2)
                     };
                 }
-            });
+            }.bind(null, aComplexTypesMetadata));
         }
         return aComplexTypes;
     }
@@ -201,13 +249,16 @@ sap.ui.define([], function () {
     }
 
     function getMetadataForDetails(e) {
+        let oComplexTypes = getComplexTypes(e);
+        let aComplexTypesList = getComplexTypes(e, true);
+
         return {
             entities: getEntities(e),
             entitiesList: getEntitiesList(e),
-            functions: getFunctionImport(e),
-            functionsList: getFunctionImport(e, true),
-            complexTypes: getComplexTypes(e),
-            complexTypesList: getComplexTypes(e, true),
+            complexTypes: oComplexTypes,
+            complexTypesList: aComplexTypesList,
+            functions: getFunctionImport(e, false, aComplexTypesList),
+            functionsList: getFunctionImport(e, true, aComplexTypesList),
             versions: getVersions(e)
         };
     }

@@ -12,13 +12,14 @@
 			<form:SimpleForm 
 					editable="true"
 					layout="ResponsiveGridLayout" 
+					adjustLabelSpan="false"
                     labelSpanXL="4" 
-					labelSpanL="4" 
+					labelSpanL="3" 
 					labelSpanM="3" 
 					labelSpanS="12"
-                    emptySpanXL="5" 
-					emptySpanL="4" 
-					emptySpanM="3" 
+                    emptySpanXL="0" 
+					emptySpanL="0" 
+					emptySpanM="0" 
 					emptySpanS="0"
                     columnsXL="1" 
 					columnsL="1" 
@@ -30,16 +31,22 @@
                             selectedKey="{services>/selectedFunction}" 
 							items="{ 
 							 path: 'services>/selectedService/metadataForDetails/functionsList', 
-							sorter : [{ path: 'text', descending: false }] ,
+							sorter : [{ path: 'name', descending: false }] ,
 							templateShareable: false
 						}">
 						<core:ListItem key="{services>name}" text="{services>name}"/>
 					</Select>
+					<Button visible="false" width="2rem"/>
 					<Label text="{i18n>FunctionHTTPMethod}"/>
 					<Text text="{ViewFunctions>/functionBinded/httpMethod}" emptyIndicatorMode="On"/>
+					<Button visible="false" width="2rem"/>
 					<Label text="{i18n>FunctionReturnType}"/>
 					<Text text="{ViewFunctions>/functionBinded/returnType}" emptyIndicatorMode="On"/>
-					<!-- TODO Gestire complex type e return type -->
+					<Button visible="{= ${ViewFunctions>/functionBinded/toComplexType} ? true : false}"
+						    icon="sap-icon://process"
+							press="onNavToComplexType" 
+							tooltip="{i18n>toComplexType}"
+							width="2rem"/>
 				</form:content>
 			</form:SimpleForm>
 			<Panel height="75%" backgroundDesign="Transparent" class="sapUiNoContentPadding">

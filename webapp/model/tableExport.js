@@ -17,13 +17,13 @@ sap.ui.define([
 
     function parseData(aDatas) {
         let aKeys = getKeys(aDatas);
-        let rows = aDatas.map((function (aKeys2, a) {
+        let rows = aDatas.map(function (aKeys2, a) {
             let array = [];
             for (let bk = 0; bk < aKeys2.length; bk++) {
                 array.push(a[aKeys2[bk]]);
             }
             return array;
-        }.bind(null, aKeys)));
+        }.bind(null, aKeys));
 
         rows.unshift(aKeys);
         return rows;

@@ -9,12 +9,18 @@ Try <a href="https://kevinbalboni.github.io/openui5-odata-visualizer/" target="_
 
 - [X] Export all tables to CSV/Excel
 - [X] Export metadata to file
+- [ ] Credits page
+- [ ] check Entity navigation cardinality (Example "* ... 0..1" ?!?!?!?!??!?!?!)
+- [ ] Count number of entities, functions, complex types
 - [ ] Basic authentication for OData Services
 - [ ] Custom header for Odata Services
-- [ ] Function (Bounded or Unbounded)
-- [ ] Navigation from Function parameters to Complex Types
+- [ ] Function 
+  - [ ] Bounded
+  - [X] Unbounded
+- [ ] Navigation from Function parameters to Complex Types (parseFileMessages)
+- [X] Navigation from Function Return type to Complex Types (parseFileMessages)
+- [ ] Navigation from Function Return type to Entities (disable User)
 - [X] Complex Types support
-  - [] Complex Types navigation
 - [ ] How to display field "Nullable" if missing 
 - [ ] Data Browser with OData Client simulator 
   - [ ] GET
