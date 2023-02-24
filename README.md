@@ -1,5 +1,5 @@
-# openui5-odata-visualizer
-![K-Develop Logo](https://raw.githubusercontent.com/kevinbalboni/openui5-odata-visualizer/main/webapp/img/Logo_trasparente_piccolo_new.png)
+# OData Visualizer
+<img src="https://raw.githubusercontent.com/kevinbalboni/openui5-odata-visualizer/main/webapp/img/Logo_trasparente_piccolo_new.png" width="200" heigth="200">
 
 A brief description of what this project does and who it's for
 
