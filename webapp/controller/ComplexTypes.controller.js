@@ -1,26 +1,18 @@
 sap.ui.define([
 	"openui5-odata-visualizer/controller/BaseController",
 	"openui5-odata-visualizer/model/tableExport",
+	"openui5-odata-visualizer/model/formatter",
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
 	"sap/ui/Device",
-	"sap/m/Dialog",
-	"sap/m/Button",
-	"sap/m/Label",
-	"sap/m/Text",
-	"sap/m/MessageBox",
-	"sap/m/Input",
-	"sap/m/InputType",
-	"sap/ui/layout/form/SimpleForm",
 	"sap/ui/model/Binding",
-	"sap/ui/table/Column",
 	"sap/ui/model/Sorter"
-], function (BaseController, tableExport, JSONModel, Filter, FilterOperator, Device, Dialog, Button,
-	Label, Text, MessageBox, Input, InputType, SimpleForm, Binding, Column, Sorter) {
+], function (BaseController, tableExport, formatter, JSONModel, Filter, FilterOperator, Device, Binding, Sorter) {
 	"use strict";
 
 	return BaseController.extend("openui5-odata-visualizer.controller.ComplexTypes", {
+		formatter: formatter,
 
 		onInit: function () {
 			this.getLogger(this.getControllerName()).info("onInit");
@@ -46,6 +38,9 @@ sap.ui.define([
 			Device.media.attachHandler(function (oDevice) {
 				this.getModel("ViewComplexTypes").setProperty("/isPhone", oDevice.name === "Phone");
 			}.bind(this));
+
+			let int = (Device.resize.height - 310) / 45;
+			this.byId("ComplexTypesTable").setVisibleRowCount(Math.trunc(int));
 		},
 
 		_bindRows: function () {

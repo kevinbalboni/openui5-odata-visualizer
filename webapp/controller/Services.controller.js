@@ -27,10 +27,6 @@ sap.ui.define([
 			});
 			this.setModel(oViewModel, "ViewService");
 
-			/* this.getRouter().getRoute("services").attachMatched(function (oEvent) {
-				this._attachRouteMatched(oEvent);
-			}.bind(this)); */
-
 			Device.media.attachHandler(function (oDevice) {
 				this.getModel("ViewService").setProperty("/isPhone", oDevice.name === "Phone");
 			}.bind(this));

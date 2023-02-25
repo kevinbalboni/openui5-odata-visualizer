@@ -1,7 +1,17 @@
 {
 	"name": "openui5-odata-visualizer",
 	"version": "1.0.0",
-	"description": "",
+	"description": "A simple tool to explore V2 OData services",
+	"homepage": "https://github.com/kevinbalboni/openui5-odata-visualizer#readme",
+	"author": {
+		"name": "Kevin Balboni",
+		"email": "kevin.balboni@k-develop.it",
+		"url": "http://k-develop.it"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kevinbalboni/openui5-odata-visualizer"
+	},
 	"scripts": {
 		"start": "http-server -c-1 ./webapp"
 	},

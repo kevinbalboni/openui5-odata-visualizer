@@ -1,7 +1,8 @@
 sap.ui.define([
     "sap/ui/core/UIComponent",
-    "sap/ui/model/json/JSONModel"
-], function (UIComponent, JSONModel) {
+    "sap/ui/model/json/JSONModel",
+    "openui5-odata-visualizer/model/formatter"
+], function (UIComponent, JSONModel, formatter) {
     "use strict";
 
     return UIComponent.extend("openui5-odata-visualizer.Component", {
@@ -15,7 +16,7 @@ sap.ui.define([
             UIComponent.prototype.init.apply(this, arguments);
             this.getRouter().initialize();
 
-            var sTheme = localStorage.getItem("OdataVisualizer_UI5_Theme");
+            var sTheme = localStorage.getItem("ODataVisualizer_UI5_Theme");
             if (sTheme) {
                 sap.ui.getCore().applyTheme(sTheme);
             }

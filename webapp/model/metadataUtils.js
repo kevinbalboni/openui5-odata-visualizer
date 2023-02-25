@@ -11,6 +11,10 @@ sap.ui.define([], function () {
         isNav: "isNav",
         navigationDetails: "navigationDetails"
     };
+    const oComplexTypeFind = {
+        name: "name",
+        text: "text"
+    };
 
     function a(e, i) {
         if (e.icon !== i.icon) {
@@ -64,9 +68,26 @@ sap.ui.define([], function () {
         return t;
     }
 
-    function c(e, r) {
+    function getComplexType(value, aComplexTypesMetadata2, sField) {
+        let oComplexType;
+        value = value.type || value;
+
+        if (aComplexTypesMetadata2.find(x => x[sField] === value)) {
+            oComplexType = aComplexTypesMetadata2.find(x => x[sField] === value);
+        } else if (value.toLowerCase().includes("collection")) {
+            let sType = value.split(".")[1];
+            oComplexType = aComplexTypesMetadata2.find(x => x[sField] === sType.slice(0, -1));
+        } else if (value.includes(".")) {
+            let sType = value.split(".")[1];
+            oComplexType = aComplexTypesMetadata2.find(x => x[sField] === sType);
+        }
+
+        return oComplexType;
+    }
+
+    function c(e, r, aComplexTypesList2) {
         var l = JSON.parse(JSON.stringify(e.property));
-        l.forEach(i => {
+        l.forEach(function (aComplexTypesList, i) {
             i.order = 3;
             if (o(i.name, e.key.propertyRef)) {
                 i[n.icon] = t;
@@ -79,7 +100,11 @@ sap.ui.define([], function () {
                 });
                 delete i.extensions;
             }
-        });
+
+            i.toComplexType = getComplexType(i, aComplexTypesList2, oComplexTypeFind.name) ?
+                getComplexType(i, aComplexTypesList2, oComplexTypeFind.name).name : null;
+
+        }.bind(null, aComplexTypesList2));
         if (e.navigationProperty) {
             e.navigationProperty.forEach(e => {
                 let t = {};
@@ -96,62 +121,33 @@ sap.ui.define([], function () {
         return l;
     }
 
-    function getComplexType(value, aComplexTypesMetadata2) {
-        let oComplexType;
-
-        value = value.type || value;
-
-        if (aComplexTypesMetadata2.find(x => x.name === value)) {
-            oComplexType = aComplexTypesMetadata2.find(x => x.name === value);
-        } else if (value.toLowerCase().includes("collection")) {
-            let sType = value.split(".")[1];
-            oComplexType = aComplexTypesMetadata2.find(x => x.name === sType.slice(0, -1));
-        } else if (value.includes(".")) {
-            let sType = value.split(".")[1];
-            oComplexType = aComplexTypesMetadata2.find(x => x.name === sType);
-        }
-
-        return oComplexType;
-    }
-
     function getProperties(property, aComplexTypesMetadata2) {
-
         let oComplexType;
-
-        for (let bk = 0; bk < property.length; bk++) {
-
-            oComplexType = getComplexType(property[bk], aComplexTypesMetadata2);
-
-            /* if (aComplexTypesMetadata2.find(x => x.name === property[bk].type)) {
-                oComplexType = aComplexTypesMetadata2.find(x => x.name === property[bk].type);
-            } else if (property[bk].type.toLowerCase().includes("collection")) {
-                let sType = property[bk].type.split(".")[1];
-                oComplexType = aComplexTypesMetadata2.find(x => x.name === sType.slice(0, -1));
-            } else if (property[bk].type.includes(".")) {
-                let sType = property[bk].type.split(".")[1];
-                oComplexType = aComplexTypesMetadata2.find(x => x.name === sType);
-            } */
-
-            if (oComplexType) {
-                property[bk].toComplexType = oComplexType.name;
+        if (property && Array.isArray(property)) {
+            for (let bk = 0; bk < property.length; bk++) {
+                oComplexType = getComplexType(property[bk], aComplexTypesMetadata2, oComplexTypeFind.name);
+                if (oComplexType) {
+                    property[bk].toComplexType = oComplexType.name;
+                }
             }
         }
-
         return property;
     }
 
-    function getEntities(e) {
+    function getEntities(e, aComplexTypesList) {
         var t = {};
         var i = e.dataServices.schema.find(e => Array.isArray(e.association)).association || [];
-        e.dataServices.schema.find(e => Array.isArray(e.entityType) && e.entityType.length > 0).entityType.forEach(e => {
-            if (!t.hasOwnProperty(e.name.toLowerCase())) {
-                t[e.name.toLowerCase()] = c(e, i);
-            }
-        });
+        e.dataServices.schema.find(e => Array.isArray(e.entityType) && e.entityType.length > 0).entityType.forEach(
+            function (aComplexTypesList2, oEntity) {
+
+                if (!t.hasOwnProperty(oEntity.name.toLowerCase())) {
+                    t[oEntity.name.toLowerCase()] = c(oEntity, i, aComplexTypesList2);
+                }
+            }.bind(null, aComplexTypesList));
         return t;
     }
 
-    function getFunctionImport(e, bArray, aComplexTypesList) {
+    function getFunctionImport(e, bArray, aComplexTypesList, aEntitiesList) {
         let aFunctionImport = [];
         let aFunctionImportMetadata = [];
 
@@ -163,23 +159,29 @@ sap.ui.define([], function () {
         }
         if (aFunctionImportMetadata && Array.isArray(aFunctionImportMetadata)) {
             aFunctionImportMetadata.forEach(function (aComplexTypesList2, e) {
+
+                let sToComplexType = getComplexType(e.returnType, aComplexTypesList2, oComplexTypeFind.name) ?
+                    getComplexType(e.returnType, aComplexTypesList2, oComplexTypeFind.name).name : null;
+                let sToEntity = getComplexType(e.returnType, aEntitiesList, oComplexTypeFind.text) ?
+                    getComplexType(e.returnType, aEntitiesList, oComplexTypeFind.text).key : null;
+
                 if (bArray) {
                     aFunctionImport.push({
                         name: e.name,
                         httpMethod: e.httpMethod,
                         returnType: e.returnType,
-                        parameters: e.parameter,
-                        toComplexType: getComplexType(e.returnType, aComplexTypesList2) ?
-                            getComplexType(e.returnType, aComplexTypesList2).name : null
+                        parameters: getProperties(e.parameter, aComplexTypesList2),
+                        toComplexType: sToComplexType,
+                        toEntity: sToEntity
                     });
                 } else {
                     aFunctionImport[e.name] = {
                         name: e.name,
                         httpMethod: e.httpMethod,
                         returnType: e.returnType,
-                        parameters: e.parameter,
-                        toComplexType: getComplexType(e.returnType, aComplexTypesList2) ?
-                            getComplexType(e.returnType, aComplexTypesList2).name : null
+                        parameters: getProperties(e.parameter, aComplexTypesList2),
+                        toComplexType: sToComplexType,
+                        toEntity: sToEntity
                     };
                 }
             }.bind(null, aComplexTypesList));
@@ -214,6 +216,11 @@ sap.ui.define([], function () {
         return aComplexTypes;
     }
 
+    function getText(e, t) {
+        var i = e.find(e => e.entityType.split(".")[1] === t);
+        return i ? i.name : "";
+    }
+
     function getEntitiesList(e) {
         let aEntityType = [];
         let aEntitySet = [];
@@ -236,11 +243,6 @@ sap.ui.define([], function () {
         return aEntitiesList;
     }
 
-    function getText(e, t) {
-        var i = e.find(e => e.entityType.split(".")[1] === t);
-        return i ? i.name : "";
-    }
-
     function getVersions(e) {
         return {
             serviceVersion: e.version,
@@ -251,14 +253,16 @@ sap.ui.define([], function () {
     function getMetadataForDetails(e) {
         let oComplexTypes = getComplexTypes(e);
         let aComplexTypesList = getComplexTypes(e, true);
+        let oEntities = getEntities(e, aComplexTypesList);
+        let aEntitiesList = getEntitiesList(e);
 
         return {
-            entities: getEntities(e),
-            entitiesList: getEntitiesList(e),
+            entities: oEntities,
+            entitiesList: aEntitiesList,
             complexTypes: oComplexTypes,
             complexTypesList: aComplexTypesList,
-            functions: getFunctionImport(e, false, aComplexTypesList),
-            functionsList: getFunctionImport(e, true, aComplexTypesList),
+            functions: getFunctionImport(e, false, aComplexTypesList, aEntitiesList),
+            functionsList: getFunctionImport(e, true, aComplexTypesList, aEntitiesList),
             versions: getVersions(e)
         };
     }

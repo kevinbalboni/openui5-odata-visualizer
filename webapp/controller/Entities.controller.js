@@ -1,33 +1,26 @@
 sap.ui.define([
 	"openui5-odata-visualizer/controller/BaseController",
 	"openui5-odata-visualizer/model/tableExport",
+	"openui5-odata-visualizer/model/formatter",
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
 	"sap/ui/Device",
-	"sap/m/Dialog",
-	"sap/m/Button",
-	"sap/m/Label",
-	"sap/m/Text",
-	"sap/m/MessageBox",
-	"sap/m/Input",
-	"sap/m/InputType",
-	"sap/ui/layout/form/SimpleForm",
 	"sap/ui/model/Binding",
-	"sap/ui/table/Column",
 	"sap/ui/model/Sorter"
-], function (BaseController, tableExport, JSONModel, Filter, FilterOperator, Device, Dialog, Button,
-	Label, Text, MessageBox, Input, InputType, SimpleForm, Binding, Column, Sorter) {
+], function (BaseController, tableExport, formatter, JSONModel, Filter, FilterOperator, Device, Binding, Sorter) {
 	"use strict";
 
 	return BaseController.extend("openui5-odata-visualizer.controller.Entities", {
+		formatter: formatter,
 
 		onInit: function () {
 			this.getLogger(this.getControllerName()).info("onInit");
 			BaseController.prototype.onInit.apply(this, arguments);
 
 			let oViewModel = new JSONModel({
-				isPhone: Device.system.phone
+				isPhone: Device.system.phone,
+				Device: Device
 			});
 			this.setModel(oViewModel, "ViewEntities");
 
@@ -44,7 +37,11 @@ sap.ui.define([
 
 			Device.media.attachHandler(function (oDevice) {
 				this.getModel("ViewEntities").setProperty("/isPhone", oDevice.name === "Phone");
+				this.getModel("ViewEntities").setProperty("/Device", Device);
 			}.bind(this));
+
+			let int = (Device.resize.height - 310) / 45;
+			this.byId("EntitiesTable").setVisibleRowCount(Math.trunc(int));
 		},
 
 		_bindEntitiesRows: function () {
@@ -81,6 +78,12 @@ sap.ui.define([
 		onNavToEntity: function (oEvent) {
 			let oLineSelected = oEvent.getSource().getBindingContext("services").getObject();
 			this.getModel("services").setProperty("/selectedEntity", oLineSelected.toEntity);
+		},
+
+		onNavToComplexType: function (oEvent) {
+			let oLineSelected = oEvent.getSource().getBindingContext("services").getObject();
+			this.getModel("services").setProperty("/selectedComplexType", oLineSelected.toComplexType);
+			this.getRouter().navTo("complexTypes");
 		},
 
 		onEntitiesRowsUpdate: function (oEvent) {

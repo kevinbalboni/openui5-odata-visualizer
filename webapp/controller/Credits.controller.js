@@ -1,17 +1,8 @@
 sap.ui.define([
 	"openui5-odata-visualizer/controller/BaseController",
 	"sap/ui/model/json/JSONModel",
-	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator",
-	"sap/ui/Device",
-	"sap/m/Dialog",
-	"sap/m/Button",
-	"sap/m/Label",
-	"sap/m/Text",
-	"sap/m/MessageBox",
-	"sap/ui/layout/form/SimpleForm"
-], function (BaseController, JSONModel, Filter, FilterOperator, Device, Dialog, Button,
-	Label, Text, MessageBox, SimpleForm) {
+	"sap/ui/Device"
+], function (BaseController, JSONModel, Device) {
 	"use strict";
 
 	return BaseController.extend("openui5-odata-visualizer.controller.Credits", {

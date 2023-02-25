@@ -1,7 +1,6 @@
 sap.ui.define([
 	"openui5-odata-visualizer/controller/BaseController",
 	"openui5-odata-visualizer/model/metadataUtils",
-	"jquery.sap.global",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/ResponsivePopover",
 	"sap/m/MessagePopover",
@@ -32,7 +31,7 @@ sap.ui.define([
 	"sap/ui/model/FilterOperator",
 	"sap/ui/model/Sorter",
 	"sap/ui/core/Item"
-], function (BaseController, metadataUtils, jQuery, JSONModel, ResponsivePopover, MessagePopover, ActionSheet, Button, Label, Text,
+], function (BaseController, metadataUtils, JSONModel, ResponsivePopover, MessagePopover, ActionSheet, Button, Label, Text,
 	Input, Link, SimpleForm, NotificationListItem, MessageItem, CustomData, MessageToast, MessageBox, MessageStrip,
 	Dialog, Device, HashChanger, library, ButtonType, ODataModelV2, Image, FlexBox, CheckBox,
 	Select, Filter, FilterOperator, Sorter, Item) {
@@ -199,7 +198,7 @@ sap.ui.define([
 					type: "Accept",
 					press: function (oEvent) {
 						var sTheme = this.getModel("appView").getProperty("/themeSelected");
-						localStorage.setItem("OdataVisualizer_UI5_Theme", sTheme);
+						localStorage.setItem("ODataVisualizer_UI5_Theme", sTheme);
 						oDialog.close();
 					}.bind(this)
 				}),
@@ -207,7 +206,7 @@ sap.ui.define([
 					text: this.getI18nText("ThemeClose"),
 					type: "Reject",
 					press: function (oEvent) {
-						var sTheme = localStorage.getItem("OdataVisualizer_UI5_Theme");
+						var sTheme = localStorage.getItem("ODataVisualizer_UI5_Theme");
 						if (!sTheme) {
 							sTheme = sap.ui.getCore().getConfiguration().getTheme();
 						}
@@ -216,7 +215,7 @@ sap.ui.define([
 					}
 				}),
 				beforeOpen: function () {
-					var sTheme = localStorage.getItem("OdataVisualizer_UI5_Theme");
+					var sTheme = localStorage.getItem("ODataVisualizer_UI5_Theme");
 					if (!sTheme) {
 						sTheme = sap.ui.getCore().getConfiguration().getTheme();
 					}

@@ -92,7 +92,7 @@ sap.ui.define([
 		},
 
 		_cellTemplate: function (name) {
-			return new sap.m.Text({
+			return new Text({
 				text: "{user>" + name + "}"
 			});
 		},
