@@ -558,7 +558,7 @@ sap.ui.define([
 		},
 
 		_createColumns: function (oDataFromCall, oTable) {
-			let oData = oDataFromCall.d.results;
+			let oData = Array.isArray(oDataFromCall.d) ? oDataFromCall.d : oDataFromCall.d.results;
 			let aKey = this.getKeys(oData);
 			let aEntityProperties = this.getPropertyOfEntity();
 			let dataTemp = {};
