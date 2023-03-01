@@ -36,7 +36,7 @@
 					<core:ListItem key="{services>setText}" text="{services>text}"/>
 				</Select>
 				<Select width="100%"
-						change="onChangeSelectedEntity"
+						change="onChangeSelectedCallType"
 						selectedKey="{ViewDatas>/selectedCallType}" 
 						items="{ 
 							path: 'ViewDatas>/callTypes', 
@@ -84,6 +84,7 @@
 						growing="false" >
 					<columns>
 						<Column hAlign="Left" width="40%" />
+						<!-- <Column hAlign="Left" width="20%" visible="true"/> -->
 						<Column hAlign="Left" width="20%" />
 						<Column hAlign="Left" width="40%" />
 					</columns>
@@ -91,8 +92,10 @@
 						<ColumnListItem>
 							<cells>
 								<!-- TODO filter complex type -->
-								<Select width="100%"
+								<FlexBox width="100%" direction="Column">
+									<Select width="100%"
 										selectedKey="{CallOdata>text}"
+										change="onChangeWhereProperty"
 										showSecondaryValues="true"
 										editable="{ViewDatas>/wherePropertiesEditable}"
 										items="{ 
@@ -100,8 +103,20 @@
 											sorter  : [{ path: 'name', descending: false }] ,
 											templateShareable: false
 									}">
-									<core:ListItem key="{ViewDatas>name}" text="{ViewDatas>name}" additionalText="{= ${ViewDatas>isNav} ? '>>' : '' }"/>
-								</Select>
+										<core:ListItem key="{ViewDatas>name}" text="{ViewDatas>name}" additionalText="{= ${ViewDatas>isNav} ? '>>' : '' }"/>
+									</Select>
+									<Select width="100%" visible="{CallOdata>text2Visible}"
+										selectedKey="{CallOdata>text2}"
+										showSecondaryValues="false"
+										editable="{ViewDatas>/wherePropertiesEditable}"
+										items="{ 
+											path: 'CallOdata>aProperties', 
+											sorter  : [{ path: 'name', descending: false }] ,
+											templateShareable: false
+									}">
+										<core:ListItem key="{CallOdata>name}" text="{CallOdata>name}" additionalText="{= ${CallOdata>isNav} ? '>>' : '' }"/>
+									</Select>
+								</FlexBox>
 								<Select width="100%"
 										selectedKey="{CallOdata>filter}"
 										editable="{ViewDatas>/wherePropertiesEditable}"

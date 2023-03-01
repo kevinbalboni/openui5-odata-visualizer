@@ -31,7 +31,7 @@ Try <a href="https://kevinbalboni.github.io/openui5-odata-visualizer/" target="_
   - [ ] GET
     - [X] Basic functionality
     - [ ] Where condition for complex type
-    - [ ] Where condition for navigation's properties
+    - [X] Where condition for navigation's properties
     - [ ] Length support (example: $filter=length(CompanyName) eq 19)
     - [ ] OR support 
     - [ ] () support

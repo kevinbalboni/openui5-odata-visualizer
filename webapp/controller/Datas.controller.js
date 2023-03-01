@@ -61,7 +61,7 @@ sap.ui.define([
 				let bindingElementList2 = new Binding(this.getModel("services"), "/");
 				bindingElementList2.attachChange(function () {
 					this.clearAll();
-					this.onChangeSelectedEntity();
+					this.onChangeSelectedCallType();
 				}.bind(this));
 
 				let oCallOdataBinding = new Binding(this.getModel("CallOdata"), "/");
@@ -88,7 +88,7 @@ sap.ui.define([
 			this.getModel("ViewDatas").setProperty("/FilterOperator", aFilterOperator);
 		},
 
-		onChangeSelectedEntity: function (oEvent) {
+		onChangeSelectedCallType: function (oEvent) {
 			let sCallType = this.getModel("ViewDatas").getProperty("/selectedCallType");
 
 			if (sCallType === "key") {
@@ -99,6 +99,8 @@ sap.ui.define([
 					if (!aProperties[bk].isKey) { continue; }
 					aWhere.push({
 						text: aProperties[bk].name,
+						text2: "",
+						text2Visible: false,
 						filter: "eq",
 						value: ""
 					});
@@ -271,12 +273,29 @@ sap.ui.define([
 		onAddWhere: function () {
 			this.byId("panelWhere").setExpanded(true);
 			let aWhere = this.getModel("CallOdata").getProperty("/where");
+			let aProperties = this.getModel("ViewDatas").getProperty("/aProperties");
+
+			aProperties.sort((a, b) => {
+				const nameA = a.name.toUpperCase();
+				const nameB = b.name.toUpperCase();
+				if (nameA < nameB) {
+					return -1;
+				}
+				if (nameA > nameB) {
+					return 1;
+				}
+				return 0;
+			});
+
 			aWhere.push({
-				text: "",
+				text: aProperties[0].name,
+				text2: "",
+				text2Visible: false,
 				filter: "",
 				value: ""
 			});
 			this.getModel("CallOdata").setProperty("/where", aWhere);
+			this.onChangeWhereProperty();
 		},
 
 		createUrl: function () {
@@ -381,12 +400,20 @@ sap.ui.define([
 			}
 
 			for (let bk = 0; bk < oCallOdata.where.length; bk++) {
+
 				if (bk === 0) {
 					sFilter = "$filter=";
 				}
 				if (bk > 0) {
 					sFilter += " and ";
 				}
+
+
+				let sField = oCallOdata.where[bk].text;
+				if (oCallOdata.where[bk].text2Visible) {
+					sField = oCallOdata.where[bk].text + "/" + oCallOdata.where[bk].text2;
+				}
+
 				switch (oCallOdata.where[bk].filter) {
 					case "eq":
 					case "ne":
@@ -394,25 +421,25 @@ sap.ui.define([
 					case "ge":
 					case "lt":
 					case "le":
-						sFilter += oCallOdata.where[bk].text + " " + oCallOdata.where[bk].filter + " '" + oCallOdata.where[bk].value + "' ";
+						sFilter += sField + " " + oCallOdata.where[bk].filter + " '" + oCallOdata.where[bk].value + "' ";
 						break;
 
 					case "startswith":
 					case "endswith":
-						sFilter += oCallOdata.where[bk].filter + "(" + oCallOdata.where[bk].text + ",'" + oCallOdata.where[bk].value + "')";
+						sFilter += oCallOdata.where[bk].filter + "(" + sField + ",'" + oCallOdata.where[bk].value + "')";
 						break;
 
 					case "substringof":
-						sFilter += oCallOdata.where[bk].filter + "('" + oCallOdata.where[bk].value + "'," + oCallOdata.where[bk].text + ")";
+						sFilter += oCallOdata.where[bk].filter + "('" + oCallOdata.where[bk].value + "'," + sField + ")";
 						break;
 
 					case "not_startswith":
 					case "not_endswith":
-						sFilter += oCallOdata.where[bk].filter.replace("_", " ") + "(" + oCallOdata.where[bk].text + ",'" + oCallOdata.where[bk].value + "')";
+						sFilter += oCallOdata.where[bk].filter.replace("_", " ") + "(" + sField + ",'" + oCallOdata.where[bk].value + "')";
 						break;
 
 					case "not_substringof":
-						sFilter += oCallOdata.where[bk].filter.replace("_", " ") + "('" + oCallOdata.where[bk].value + "'," + oCallOdata.where[bk].text + ")";
+						sFilter += oCallOdata.where[bk].filter.replace("_", " ") + "('" + oCallOdata.where[bk].value + "'," + sField + ")";
 						break;
 
 				}
@@ -421,7 +448,7 @@ sap.ui.define([
 			return sFilter;
 		},
 
-		getPropertyOfEntity: function () {
+		getPropertyOfEntity: function (sEntity, sFieldToSearch) {
 			let sSelectedEntity = this.getModel("services").getProperty("/selectedEntityDatas");
 			let aEntityList = this.getModel("services").getProperty("/selectedService/metadataForDetails/entitiesList");
 
@@ -429,12 +456,38 @@ sap.ui.define([
 				return;
 			}
 
-			let sSelectedEntity2 = aEntityList.find(x => x.setText === sSelectedEntity);
+			let sEntityToSearch = sSelectedEntity;
+			if (sEntity) {
+				sEntityToSearch = sEntity;
+			}
+
+			let sFieldToSearch2 = "setText";
+			if (sFieldToSearch) {
+				sFieldToSearch2 = sFieldToSearch;
+			}
+
+			let sSelectedEntity2 = aEntityList.find(x => x[sFieldToSearch2] === sEntityToSearch);
 			if (!sSelectedEntity2) {
 				return;
 			}
 			let oSelectedServiceProperties = this.getModel("services").getProperty("/selectedService/metadataForDetails/entities/" + sSelectedEntity2.key.toLowerCase());
 			return oSelectedServiceProperties;
+		},
+
+		onChangeWhereProperty: function () {
+			let oCallOdata = this.getModel("CallOdata").getData();
+			let oPropertiesOfEntity = this.getPropertyOfEntity();
+
+			for (let bk = 0; bk < oCallOdata.where.length; bk++) {
+				let oNav = oPropertiesOfEntity.find(x => x.name === oCallOdata.where[bk].text && x.isNav === true);
+				if (oNav) {
+					let aProperties = this.getPropertyOfEntity(oNav.toEntity, "key");
+					oCallOdata.where[bk].aProperties = aProperties.filter(x => !x.isNav);
+					oCallOdata.where[bk].text2Visible = true;
+				} else {
+					oCallOdata.where[bk].text2Visible = false;
+				}
+			}
 		},
 
 		onMadeCall: function () {
