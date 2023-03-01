@@ -56,7 +56,10 @@ sap.ui.define([], function () {
 
     function getRelations(e) {
         let t = [];
-        let i = e.dataServices.schema.find(e => Array.isArray(e.association)).association || [];
+        let i = [];
+        if (e.dataServices.schema.find(e => Array.isArray(e.association))) {
+            i = e.dataServices.schema.find(e => Array.isArray(e.association)).association;
+        }
         i.forEach(e => {
             t.push({
                 fromEntity: e.end[0].type.split(".").pop().toLocaleLowerCase(),
@@ -136,7 +139,10 @@ sap.ui.define([], function () {
 
     function getEntities(e, aComplexTypesList) {
         var t = {};
-        var i = e.dataServices.schema.find(e => Array.isArray(e.association)).association || [];
+        let i = [];
+        if (e.dataServices.schema.find(e => Array.isArray(e.association))) {
+            i = e.dataServices.schema.find(e => Array.isArray(e.association)).association;
+        }
         e.dataServices.schema.find(e => Array.isArray(e.entityType) && e.entityType.length > 0).entityType.forEach(
             function (aComplexTypesList2, oEntity) {
 

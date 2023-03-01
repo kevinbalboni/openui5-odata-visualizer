@@ -26,13 +26,15 @@ sap.ui.define([
 
 			this.getRouter().getRoute("entities").attachMatched(function (oEvent) {
 
-				let oModel = this.getModel("services");
-				let bindingElementList = new Binding(oModel, "/", oModel.getContext("/selectedEntity"));
+				/* let oModel = this.getModel("services"); //TODO spostare altrimenti scatta ad ogni navigazione
+				let bindingElementList = new Binding(oModel, "/", oModel.getContext("/selectedFunction"));
 				bindingElementList.attachChange(function (oEventChange) {
-					this._bindEntitiesRows();
+					this._clearFilters();
+					this._bindRows();
 				}.bind(this));
 
-				this._bindEntitiesRows();
+				this._bindRows();  *///TODO spostare altrimenti scatta ad ogni navigazione
+				this.autoResizeColumns("EntitiesTable");
 			}.bind(this));
 
 			Device.media.attachHandler(function (oDevice) {
@@ -42,6 +44,16 @@ sap.ui.define([
 
 			let int = (Device.resize.height - 310) / 45;
 			this.byId("EntitiesTable").setVisibleRowCount(Math.trunc(int));
+
+			setTimeout(function () {
+				let oModel = this.getModel("services");
+				let bindingElementList = new Binding(oModel, "/", oModel.getContext("/selectedEntity"));
+				bindingElementList.attachChange(function (oEventChange) {
+					this._clearFilters();
+					this._bindEntitiesRows();
+				}.bind(this));
+				this._bindEntitiesRows();
+			}.bind(this), 500);
 		},
 
 		_bindEntitiesRows: function () {
@@ -95,8 +107,8 @@ sap.ui.define([
 		},
 
 		onChangeEntity: function () {
-			this._clearFilters();
-			this._bindEntitiesRows();
+			//this._clearFilters();
+			//this._bindEntitiesRows();
 		},
 
 		onEntitySearch: function (oEvent) {

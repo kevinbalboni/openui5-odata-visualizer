@@ -93,13 +93,44 @@ sap.ui.define([
 								}
 							}),
 							new Label({
+								text: this.getI18nText("ServiceUsername")
+							}),
+							new Input({
+								value: "{NewService>/username}",
+								liveChange: function (oEvent) {
+									let oNewService = this.getModel("NewService").getData();
+									let oInputName = sap.ui.getCore().byId("NewServiceName");
+									let oInputURL = sap.ui.getCore().byId("NewServiceURL");
+									this.checkData(oNewService, oDialogServicesCreate, oInputName, oInputURL);
+								}.bind(this),
+								submit: function () {
+									sap.ui.getCore().byId("NewServiceURL").focus();
+								}
+							}),
+							new Label({
+								text: this.getI18nText("ServicePassword")
+							}),
+							new Input({
+								maxLength: 40,
+								value: "{NewService>/password}",
+								liveChange: function (oEvent) {
+									let oNewService = this.getModel("NewService").getData();
+									let oInputName = sap.ui.getCore().byId("NewServiceName");
+									let oInputURL = sap.ui.getCore().byId("NewServiceURL");
+									this.checkData(oNewService, oDialogServicesCreate, oInputName, oInputURL);
+								}.bind(this),
+								submit: function () {
+									sap.ui.getCore().byId("NewServiceURL").focus();
+								}
+							}),
+							new Label({
 								required: true,
 								text: this.getI18nText("ServiceURL")
 							}),
 							new Input({
 								id: "NewServiceURL",
 								value: "{NewService>/url}",
-								type: InputType.Url,
+								type: InputType.password,
 								liveChange: function (oEvent) {
 									let sText = oEvent.getParameter("value").trim();
 									this.getModel("NewService").setProperty("/url", sText);
@@ -145,7 +176,9 @@ sap.ui.define([
 					var oNewService = new JSONModel({
 						ID: self.crypto.randomUUID(),
 						name: "",
-						url: ""
+						url: "",
+						username: "",
+						password: ""
 					});
 					this.setModel(oNewService, "NewService");
 
@@ -214,6 +247,37 @@ sap.ui.define([
 								}
 							}),
 							new Label({
+								text: this.getI18nText("ServiceUsername")
+							}),
+							new Input({
+								value: "{EditService>/username}",
+								liveChange: function () {
+									let oEditService = this.getModel("EditService").getData();
+									let oInputName = sap.ui.getCore().byId("EditServiceName");
+									let oInputURL = sap.ui.getCore().byId("EditServiceURL");
+									this.checkData(oEditService, oDialogServicesEdit, oInputName, oInputURL);
+								}.bind(this),
+								submit: function () {
+									sap.ui.getCore().byId("NewServiceURL").focus();
+								}
+							}),
+							new Label({
+								text: this.getI18nText("ServicePassword")
+							}),
+							new Input({
+								maxLength: 40,
+								value: "{EditService>/password}",
+								liveChange: function () {
+									let oEditService = this.getModel("EditService").getData();
+									let oInputName = sap.ui.getCore().byId("EditServiceName");
+									let oInputURL = sap.ui.getCore().byId("EditServiceURL");
+									this.checkData(oEditService, oDialogServicesEdit, oInputName, oInputURL);
+								}.bind(this),
+								submit: function () {
+									sap.ui.getCore().byId("NewServiceURL").focus();
+								}
+							}),
+							new Label({
 								required: true,
 								text: this.getI18nText("ServiceURL")
 							}),
@@ -228,7 +292,6 @@ sap.ui.define([
 									let oInputName = sap.ui.getCore().byId("EditServiceName");
 									let oInputURL = sap.ui.getCore().byId("EditServiceURL");
 									this.checkData(oEditService, oDialogServicesEdit, oInputName, oInputURL);
-
 								}.bind(this),
 								submit: function () {
 									if (oDialogServicesEdit.getBeginButton().getEnabled()) {

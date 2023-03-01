@@ -1,65 +1,88 @@
 {
-    "selectedServiceID": "595316ce-8556-486d-9bf0-ae8749f78b37",
+    "selectedServiceID": "ca1eb8e6-f9e6-424e-ada5-59812c6376a1",
     "selectedEntity": null,
+    "selectedEntityDatas": null,
     "selectedFunction": null,
     "selectedService": {
-        "ID": "595316ce-8556-486d-9bf0-ae8749f78b37",
-        "name": "Wispin EGO - wispinService",
-        "url": "http://127.0.0.1:4004/v2/proxy/odata/wispinService",
+        "ID": "ca1eb8e6-f9e6-424e-ada5-59812c6376a1",
+        "name": "odata.org V2",
+        "url": "https://cors-anywhere.herokuapp.com/https://services.odata.org/V2/OData/OData.svc/",
         "metadata": "",
+        "username": "",
+        "password": "",
         "metadataString": "",
         "metadataForDetails": "",
         "metadataForDiagram": "",
         "metadataForServices": ""
     },
+    "callTypes": [
+        {
+            "key": "count",
+            "value": ""
+        },
+        {
+            "key": "key",
+            "value": ""
+        },
+        {
+            "key": "topSkip",
+            "value": ""
+        }
+    ],
+    "FilterOperator": [
+        {
+            "key": "ne"
+        },
+        {
+            "key": "ge"
+        },
+        {
+            "key": "gt"
+        },
+        {
+            "key": "le"
+        },
+        {
+            "key": "lt"
+        },
+        {
+            "key": "eq"
+        },
+        {
+            "key": "startswith"
+        },
+        {
+            "key": "endswith"
+        },
+        {
+            "key": "substringof"
+        },
+        {
+            "key": "not_startswith"
+        },
+        {
+            "key": "not_endswith"
+        },
+        {
+            "key": "not_substringof"
+        }
+    ],
     "services": [
-        {
-            "ID": "c5db3ba2-ae35-4184-9e68-506d481e7115",
-            "name": "Wispin EGO - wispinFES V2",
-            "url": "http://127.0.0.1:4004/v2/proxy/odata/wispinFES",
-            "metadata": ""
-        },
-        {
-            "ID": "1c4b0a9d-28c6-405f-9810-9ccd5697a905",
-            "name": "Wispin EGO - WispinServiceTransport V2",
-            "url": "http://127.0.0.1:4004/v2/proxy/odata/WispinServiceTransport",
-            "metadata": ""
-        },
-        {
-            "ID": "595316ce-8556-486d-9bf0-ae8749f78b37",
-            "name": "Wispin EGO - wispinService V2",
-            "url": "http://127.0.0.1:4004/v2/proxy/odata/wispinService",
-            "metadata": ""
-        },
-        {
-            "ID": "95b9c7f5-6818-4a6f-8cbd-824611b24753",
-            "name": "Wispin EGO - wispinService V4",
-            "url": "http://127.0.0.1:4004/odata/wispinService",
-            "metadata": ""
-        },
-        {
-            "ID": "003a688e-d59d-4323-9c4c-642d82522989",
-            "name": "odata.org V2 - Cors",
-            "url": "https://cors-anywhere.herokuapp.com/https://services.odata.org/V2/OData/OData.svc/",
-            "metadata": ""
-        },
         {
             "ID": "ca1eb8e6-f9e6-424e-ada5-59812c6376a1",
             "name": "odata.org V2",
             "url": "https://cors-anywhere.herokuapp.com/https://services.odata.org/V2/OData/OData.svc/",
-            "metadata": ""
+            "metadata": "",
+            "username": "",
+            "password": ""
         },
         {
             "ID": "9061ac03-e88e-4f86-8c02-c6ceb3c46828",
             "name": "Northwind V2",
             "url": "https://cors-anywhere.herokuapp.com/https://services.odata.org/V2/Northwind/Northwind.svc/",
-            "metadata": ""
-        },
-        {
-            "ID": "d348d972-97a5-4cfc-b372-001b97abaca2",
-            "name": "Swiss Parlament",
-            "url": "https://cors-anywhere.herokuapp.com/https://ws.parlament.ch/odata.svc/",
-            "metadata": ""
+            "metadata": "",
+            "username": "",
+            "password": ""
         }
     ]
 }

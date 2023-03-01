@@ -39,7 +39,6 @@
                     </Select>
                 </form:content>
             </form:SimpleForm>
-            <!-- <Panel height="90%" backgroundDesign="Transparent" class="sapUiNoContentPadding"> -->
             <uiTable:Table id="ComplexTypesTable" selectionMode="None" visibleRowCountMode="Fixed" 
 							enableSelectAll="false"	alternateRowColors="true" editable="false" 
 							enableBusyIndicator="false" showColumnVisibilityMenu="false" fixedColumnCount="1"
@@ -103,7 +102,6 @@
                     </uiTable:Column>
                 </uiTable:columns>
             </uiTable:Table>
-            <!--  </Panel> -->
         </content>
     </Page>
 </mvc:View>

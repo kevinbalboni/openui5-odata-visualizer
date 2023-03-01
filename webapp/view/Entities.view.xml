@@ -7,11 +7,11 @@
     xmlns:f="sap.f"
 	xmlns:form="sap.ui.layout.form"
 	xmlns:uiTable="sap.ui.table" >
-    <Page showHeader="true" 
+	<Page showHeader="true" 
 		title="{parts:[{path : 'services>/selectedService/metadataForDetails/entitiesList'}, {path : 'i18n>Entities'} ], formatter : '.formatter.titlePage'}" 
 		class="sapUiResponsiveContentPadding">
-        <content>
-            <form:SimpleForm 
+		<content>
+			<form:SimpleForm 
 					editable="true"
 					layout="ResponsiveGridLayout" 
                     labelSpanXL="4" 
@@ -25,9 +25,9 @@
                     columnsXL="1" 
 					columnsL="1" 
 					columnsM="1">
-                <form:content>
-                    <Label text="{i18n>Entities}"/>
-                    <Select width="100%"
+				<form:content>
+					<Label text="{i18n>Entities}"/>
+					<Select width="100%"
                             change="onChangeEntity" 
                             selectedKey="{services>/selectedEntity}" 
 							items="{ 
@@ -35,89 +35,84 @@
 							sorter : [{ path: 'text', descending: false }] ,
 							templateShareable: false
 						}">
-                        <core:ListItem key="{services>key}" text="{services>text}"/>
-                    </Select>
-                </form:content>
-            </form:SimpleForm>
-            <!-- <Panel backgroundDesign="Transparent" class="sapUiNoContentPadding"> 
-            visibleRowCount="{= ${ViewEntities>/Device/resize/height} > 900 ? 12 : 10}"
-            s
-            -->
-            <uiTable:Table id="EntitiesTable" selectionMode="None" visibleRowCountMode="Fixed" 
+						<core:ListItem key="{services>key}" text="{services>text}"/>
+					</Select>
+				</form:content>
+			</form:SimpleForm>
+			<uiTable:Table id="EntitiesTable" selectionMode="None" visibleRowCountMode="Fixed" 
 							enableSelectAll="false"	alternateRowColors="true" editable="false" 
 							enableBusyIndicator="false" showColumnVisibilityMenu="false" fixedColumnCount="2"
                             cellClick="onCellClick" rowsUpdated="onEntitiesRowsUpdate" width="100%">
-                <uiTable:extension>
-                    <OverflowToolbar>
-                        <Title text="{ViewEntities>/TableTitle}"/>
-                        <ToolbarSpacer/>
-                        <MenuButton icon="sap-icon://excel-attachment" type="Transparent">
-                            <menu>
-                                <Menu itemSelected="onEntityExportToFile">
-                                    <MenuItem key="EXCEL" text="{i18n>ExportExcel}"/>
-                                    <MenuItem key="CSV" text="{i18n>ExportCSV}"/>
-                                </Menu>
-                            </menu>
-                        </MenuButton>
-                        <ToolbarSeparator/>
-                        <SearchField id="SearchEntities" search="onEntitySearch" width="auto" showRefreshButton="true" />
-                    </OverflowToolbar>
-                </uiTable:extension>
-                <uiTable:columns>
-                    <uiTable:Column autoResizable="true" >
-                        <uiTable:template>
-                            <core:Icon src="{services>icon}" color="{= ${services>icon} === 'sap-icon://key' ? 'Critical' : 'Marker'}" />
-                        </uiTable:template>
-                    </uiTable:Column>
-                    <uiTable:Column sortProperty="name" filterProperty="name" autoResizable="true">
-                        <Label text="{i18n>PropertyName}" />
-                        <uiTable:template>
-                            <Text text="{services>name}" />
-                        </uiTable:template>
-                    </uiTable:Column>
-                    <uiTable:Column sortProperty="type" filterProperty="type" autoResizable="true">
-                        <Label text="{i18n>PropertyType}" />
-                        <uiTable:template>
-                            <VBox>
-                                <Text text="{services>type}" wrapping="false"/>
-                                <Link text="{services>toComplexType}" press="onNavToComplexType" 
+				<uiTable:extension>
+					<OverflowToolbar>
+						<Title text="{ViewEntities>/TableTitle}"/>
+						<ToolbarSpacer/>
+						<MenuButton icon="sap-icon://excel-attachment" type="Transparent">
+							<menu>
+								<Menu itemSelected="onEntityExportToFile">
+									<MenuItem key="EXCEL" text="{i18n>ExportExcel}"/>
+									<MenuItem key="CSV" text="{i18n>ExportCSV}"/>
+								</Menu>
+							</menu>
+						</MenuButton>
+						<ToolbarSeparator/>
+						<SearchField id="SearchEntities" search="onEntitySearch" width="auto" showRefreshButton="true" />
+					</OverflowToolbar>
+				</uiTable:extension>
+				<uiTable:columns>
+					<uiTable:Column autoResizable="true" >
+						<uiTable:template>
+							<core:Icon src="{services>icon}" color="{= ${services>icon} === 'sap-icon://key' ? 'Critical' : 'Marker'}" />
+						</uiTable:template>
+					</uiTable:Column>
+					<uiTable:Column sortProperty="name" filterProperty="name" autoResizable="true">
+						<Label text="{i18n>PropertyName}" />
+						<uiTable:template>
+							<Text text="{services>name}" />
+						</uiTable:template>
+					</uiTable:Column>
+					<uiTable:Column sortProperty="type" filterProperty="type" autoResizable="true">
+						<Label text="{i18n>PropertyType}" />
+						<uiTable:template>
+							<VBox>
+								<Text text="{services>type}" wrapping="false"/>
+								<Link text="{services>toComplexType}" press="onNavToComplexType" 
 										visible="{= ${services>toComplexType} ? true: false}"/>
-                            </VBox>
-                        </uiTable:template>
-                    </uiTable:Column>
-                    <uiTable:Column sortProperty="toEntity" filterProperty="toEntity" autoResizable="true">
-                        <Label text="{i18n>ToEntity}" />
-                        <uiTable:template>
-                            <Link text="{services>toEntity}" press="onNavToEntity"/>
-                        </uiTable:template>
-                    </uiTable:Column>
-                    <uiTable:Column sortProperty="precision" filterProperty="precision" autoResizable="true">
-                        <Label text="{i18n>PropertyPrecision}" />
-                        <uiTable:template>
-                            <Text text="{services>precision}" wrapping="false"/>
-                        </uiTable:template>
-                    </uiTable:Column>
-                    <uiTable:Column sortProperty="maxLength" filterProperty="maxLength" autoResizable="true">
-                        <Label text="{i18n>PropertyMaxLength}" />
-                        <uiTable:template>
-                            <Text text="{services>maxLength}" wrapping="false"/>
-                        </uiTable:template>
-                    </uiTable:Column>
-                    <uiTable:Column sortProperty="Scale" filterProperty="Scale" autoResizable="true">
-                        <Label text="{i18n>PropertyScale}" />
-                        <uiTable:template>
-                            <Text text="{services>scale}" wrapping="false"/>
-                        </uiTable:template>
-                    </uiTable:Column>
-                    <uiTable:Column sortProperty="nullable" filterProperty="nullable" autoResizable="true">
-                        <Label text="{i18n>PropertyNullable}" />
-                        <uiTable:template>
-                            <CheckBox selected="{= ${services>nullable} === 'false' ? false : true}" editable="false"/>
-                        </uiTable:template>
-                    </uiTable:Column>
-                </uiTable:columns>
-            </uiTable:Table>
-            <!-- </Panel> -->
-        </content>
-    </Page>
+							</VBox>
+						</uiTable:template>
+					</uiTable:Column>
+					<uiTable:Column sortProperty="toEntity" filterProperty="toEntity" autoResizable="true">
+						<Label text="{i18n>ToEntity}" />
+						<uiTable:template>
+							<Link text="{services>toEntity}" press="onNavToEntity"/>
+						</uiTable:template>
+					</uiTable:Column>
+					<uiTable:Column sortProperty="precision" filterProperty="precision" autoResizable="true">
+						<Label text="{i18n>PropertyPrecision}" />
+						<uiTable:template>
+							<Text text="{services>precision}" wrapping="false"/>
+						</uiTable:template>
+					</uiTable:Column>
+					<uiTable:Column sortProperty="maxLength" filterProperty="maxLength" autoResizable="true">
+						<Label text="{i18n>PropertyMaxLength}" />
+						<uiTable:template>
+							<Text text="{services>maxLength}" wrapping="false"/>
+						</uiTable:template>
+					</uiTable:Column>
+					<uiTable:Column sortProperty="Scale" filterProperty="Scale" autoResizable="true">
+						<Label text="{i18n>PropertyScale}" />
+						<uiTable:template>
+							<Text text="{services>scale}" wrapping="false"/>
+						</uiTable:template>
+					</uiTable:Column>
+					<uiTable:Column sortProperty="nullable" filterProperty="nullable" autoResizable="true">
+						<Label text="{i18n>PropertyNullable}" />
+						<uiTable:template>
+							<CheckBox selected="{= ${services>nullable} === 'false' ? false : true}" editable="false"/>
+						</uiTable:template>
+					</uiTable:Column>
+				</uiTable:columns>
+			</uiTable:Table>
+		</content>
+	</Page>
 </mvc:View>

@@ -56,7 +56,6 @@
 							width="2rem"/>
 				</form:content>
 			</form:SimpleForm>
-			<!-- <Panel height="75%" backgroundDesign="Transparent" class="sapUiNoContentPadding"> -->
 			<uiTable:Table id="FunctionsTable" selectionMode="None" visibleRowCountMode="Fixed" 
 							enableSelectAll="false"	alternateRowColors="true" editable="false" 
 							enableBusyIndicator="false" showColumnVisibilityMenu="false" fixedColumnCount="2"
@@ -126,7 +125,6 @@
 					</uiTable:Column>
 				</uiTable:columns>
 			</uiTable:Table>
-			<!-- </Panel> -->
 		</content>
 	</Page>
 </mvc:View>

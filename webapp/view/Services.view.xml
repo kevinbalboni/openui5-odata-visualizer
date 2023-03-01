@@ -37,7 +37,10 @@
 					<Column hAlign="Left" width="30%">
 						<Text text="{i18n>ServiceName}"/>
 					</Column>
-					<Column hAlign="Left" width="70%">
+					<Column hAlign="Center" width="100px">
+						<Text text="{i18n>Credential}"/>
+					</Column>
+					<Column hAlign="Left" width="60%">
 						<Text text="{i18n>ServiceURL}"/>
 					</Column>
 				</columns>
@@ -45,6 +48,7 @@
 					<ColumnListItem type="Detail" detailPress="onServiceDetailPress">
 						<cells>
 							<ObjectIdentifier title="{services>name}"/>
+							<core:Icon src="{= ${services>password} !== '' ? 'sap-icon://sys-enter-2' : '' }" color="Positive"/>
 							<Link text="{services>url}" href="{services>url}" wrapping="true" target="_blank"/>
 						</cells>
 					</ColumnListItem>

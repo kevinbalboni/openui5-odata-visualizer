@@ -7,13 +7,15 @@ Try <a href="https://kevinbalboni.github.io/openui5-odata-visualizer/" target="_
 
 ## Roadmap
 
+- [X] Refresh metadata create infinite loop
+- [ ] Refresh metadata does not trigger a metadata call
 - [X] Export all tables to CSV/Excel
 - [X] Export metadata to file
-- [ ] check logo (sfocato)
-- [ ] Credits page
+- [ ] Controllare persistenza dei dati quando si cambia view (mantenere i dati in "Esplora Dati")
+- [ ] Credits page / with contact me button /website k-develop.it ecc...
 - [ ] check Entity navigation cardinality (Example "* ... 0..1" ?!?!?!?!??!?!?!)
 - [X] Count number of entities, functions, complex types
-- [ ] Basic authentication for OData Services
+- [X] Basic authentication for OData Services
 - [ ] Custom header for Odata Services
 - [ ] Function 
   - [ ] Bounded
@@ -27,6 +29,13 @@ Try <a href="https://kevinbalboni.github.io/openui5-odata-visualizer/" target="_
 - [ ] How to display field "Nullable" if missing 
 - [ ] Data Browser with OData Client simulator 
   - [ ] GET
+    - [X] Basic functionality
+    - [ ] Where condition for complex type
+    - [ ] Where condition for navigation's properties
+    - [ ] Length support (example: $filter=length(CompanyName) eq 19)
+    - [ ] OR support 
+    - [ ] () support
+    - [ ] $inlinecount
   - [ ] POST/PUT (not sure)
   - [ ] DELETE (not sure)
   - [ ] Functions (not sure)

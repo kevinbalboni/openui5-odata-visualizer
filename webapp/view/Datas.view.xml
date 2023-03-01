@@ -6,18 +6,20 @@
 	xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.f"
 	xmlns:form="sap.ui.layout.form"
-	xmlns:uiTable="sap.ui.table" >
-	<Page showHeader="true" title="{i18n>Datas}" class="sapUiResponsiveContentPadding">
-		<!-- <form:SimpleForm 
+	xmlns:uiTable="sap.ui.table"
+	xmlns:codeeditor="sap.ui.codeeditor" >
+	<Page showHeader="true" title="{i18n>Datas}" class="sapUiSizeCompact">
+		<!-- Entity selection - TOP - SKIP - COUNT - KEY/EntitySet -->
+		<form:SimpleForm 
 					editable="true"
 					layout="ResponsiveGridLayout" 
-                    labelSpanXL="4" 
-					labelSpanL="4" 
-					labelSpanM="4" 
+                    labelSpanXL="1" 
+					labelSpanL="1" 
+					labelSpanM="1" 
 					labelSpanS="12"
-                    emptySpanXL="5" 
-					emptySpanL="4" 
-					emptySpanM="3" 
+                    emptySpanXL="1" 
+					emptySpanL="1" 
+					emptySpanM="1" 
 					emptySpanS="0"
                     columnsXL="1" 
 					columnsL="1" 
@@ -25,41 +27,201 @@
 			<form:content>
 				<Label text="{i18n>Entities}"/>
 				<Select width="100%"
-                            change="onChangeValueSelect" 
-                            selectedKey="{ViewDatas>/selectedEntity}" 
-							items="{ 
-							 path: 'services>/selectedService/metadataForDetails/entitiesList', 
+						selectedKey="{services>/selectedEntityDatas}" 
+						items="{ 
+							path: 'services>/selectedService/metadataForDetails/entitiesList', 
 							sorter : [{ path: 'text', descending: false }] ,
 							templateShareable: false
-						}">
-					<core:ListItem key="{services>text}" text="{services>text}"/>
+					}">
+					<core:ListItem key="{services>setText}" text="{services>text}"/>
 				</Select>
+				<Select width="100%"
+						change="onChangeSelectedEntity"
+						selectedKey="{ViewDatas>/selectedCallType}" 
+						items="{ 
+							path: 'ViewDatas>/callTypes', 
+							sorter : [{ path: 'key', descending: true }],
+							templateShareable: false
+					}">
+					<core:ListItem key="{ViewDatas>key}" text="{ViewDatas>value}"/>
+					<layoutData>
+						<l:GridData span="XL2 L2 M2 S2" />
+					</layoutData>
+				</Select>
+				<Input value="{CallOdata>/top}" placeholder="Top" type="Number" visible="{= ${ViewDatas>/selectedCallType} === 'topSkip' ? true : false }">
+					<layoutData>
+						<l:GridData span="XL1 L1 M1 S1" />
+					</layoutData>
+				</Input>
+				<Input value="{CallOdata>/skip}" placeholder="Skip" type="Number" visible="{= ${ViewDatas>/selectedCallType} === 'topSkip' ? true : false }">
+					<layoutData>
+						<l:GridData span="XL1 L1 M1 S1" />
+					</layoutData>
+				</Input>
 			</form:content>
 		</form:SimpleForm>
-		<uiTable:Table id="EntitiesTable" selectionMode="None" visibleRowCountMode="Auto" 
-							enableSelectAll="false"	alternateRowColors="true" editable="false" 
-							enableBusyIndicator="false" showColumnVisibilityMenu="true"
-                            cellClick="onCellClick" rowsUpdated="onRowsUpdate" >
+		<!--  WHERE/FILTERS -->
+		<Panel id="panelWhere" expandable="true" backgroundDesign="Transparent" >
+			<headerToolbar>
+				<OverflowToolbar>
+					<Title text="{i18n>Filters}" />
+					<ToolbarSpacer />
+					<Button icon="sap-icon://add" press="onAddWhere" tooltip="{i18n>addWhere}" visible="{ViewDatas>/wherePropertiesEditable}"/>
+				</OverflowToolbar>
+			</headerToolbar>
+			<content>
+				<Table id="DatasWhereTable"
+						sticky="HeaderToolbar,ColumnHeaders" 
+						items="{ 
+									path: 'CallOdata>/where', 
+									templateShareable: false
+								}"
+						mode="{= ${ViewDatas>/wherePropertiesEditable} ? 'Delete' : 'None' }"
+						delete="onWhereDelete"
+						backgroundDesign="Transparent"
+						alternateRowColors="true"
+						showSeparators="None"
+						growing="false" >
+					<columns>
+						<Column hAlign="Left" width="40%" />
+						<Column hAlign="Left" width="20%" />
+						<Column hAlign="Left" width="40%" />
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<!-- TODO filter complex type -->
+								<Select width="100%"
+										selectedKey="{CallOdata>text}"
+										showSecondaryValues="true"
+										editable="{ViewDatas>/wherePropertiesEditable}"
+										items="{ 
+											path: 'ViewDatas>/aProperties', 
+											sorter  : [{ path: 'name', descending: false }] ,
+											templateShareable: false
+									}">
+									<core:ListItem key="{ViewDatas>name}" text="{ViewDatas>name}" additionalText="{= ${ViewDatas>isNav} ? '>>' : '' }"/>
+								</Select>
+								<Select width="100%"
+										selectedKey="{CallOdata>filter}"
+										editable="{ViewDatas>/wherePropertiesEditable}"
+										items="{ 
+											path: 'ViewDatas>/FilterOperator', 
+											sorter  : [{ path: 'value', descending: true }] ,
+											templateShareable: false
+									}">
+									<core:ListItem key="{ViewDatas>key}" text="{ViewDatas>value}"/>
+								</Select>
+								<Input value="{CallOdata>value}"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</content>
+		</Panel>
+		<!-- EXPAND -->
+		<Panel expandable="true" headerText="{i18n>Expand}" backgroundDesign="Transparent" >
+			<List width="50%" 
+					backgroundDesign="Transparent"
+					showSeparators="None"
+					items="{
+						path: 'CallOdata>/expands',
+						sorter : [{ path: 'name', descending: false }] ,
+						templateShareable: false
+					}"  >
+				<InputListItem label="{CallOdata>name}" >
+					<Switch state="{CallOdata>selected}" />
+				</InputListItem>
+			</List>
+		</Panel>
+		<!-- COLUMNS/SELECT -->
+		<Panel expandable="true" headerText="{i18n>Columns_Order_by}" backgroundDesign="Transparent" >
+			<form:SimpleForm id="simpleFormColumns"
+					editable="true"
+					layout="ResponsiveGridLayout"
+					labelSpanXL="4"
+					labelSpanL="4"
+					labelSpanM="4"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="0"
+					emptySpanL="0"
+					emptySpanM="0"
+					emptySpanS="0"
+					columnsXL="3"
+					columnsL="2"
+					columnsM="2"
+					singleContainerFullSize="false" />
+		</Panel>
+		<!-- URL -->
+		<form:SimpleForm 
+					editable="true"
+					layout="ResponsiveGridLayout" 
+                    labelSpanXL="1" 
+					labelSpanL="1" 
+					labelSpanM="1" 
+					labelSpanS="12"
+                    emptySpanXL="0" 
+					emptySpanL="0" 
+					emptySpanM="0" 
+					emptySpanS="0"
+                    columnsXL="1" 
+					columnsL="1" 
+					columnsM="1">
+			<form:content>
+				<Label text="{i18n>ServiceURL}"/>
+				<TextArea value="{ViewDatas>/url}" growing="true" rows="1"/>
+				<Button icon="sap-icon://internet-browser"
+						press="onBtnOpenURL" 
+						tooltip="{i18n>OpenURL}"
+						width="1rem">
+					<layoutData>
+						<l:GridData span="XL1 L1 M1 S1" />
+					</layoutData>
+				</Button>
+				<Button icon="sap-icon://process"
+						press="onMadeCall" 
+						type="Success"
+						tooltip="{i18n>MadeCall}"
+						width="4rem">
+					<layoutData>
+						<l:GridData span="XL2 L2 M2 S2" />
+					</layoutData>
+				</Button>
+			</form:content>
+		</form:SimpleForm>
+		<FlexBox justifyContent="Center">
+			<SegmentedButton selectedKey="{ViewDatas>/displayDataType}">
+				<items>
+					<SegmentedButtonItem icon="sap-icon://table-view" key="table" text="{i18n>table}" width="auto"/>
+					<SegmentedButtonItem icon="sap-icon://text-formatting" key="code" text="{i18n>Code}" width="auto"/>
+				</items>
+			</SegmentedButton>
+		</FlexBox>
+		<!-- TABLE SHOW DATA -->
+		<uiTable:Table id="DatasTable" selectionMode="None" visibleRowCountMode="Fixed" 
+						visibleRowCount="5" visible="{= ${ViewDatas>/displayDataType} === 'table' ? true : false}"
+						enableSelectAll="false"	alternateRowColors="true" editable="false" 
+						enableBusyIndicator="false" showColumnVisibilityMenu="true"
+                        cellClick="onCellClick" rowsUpdated="onDataRowsUpdate" >
 			<uiTable:extension>
 				<OverflowToolbar>
-					<Title text="{logsView>/TableTitle}"/>
+					<Title text="{ViewDatas>/TableTitle}"/>
 					<ToolbarSpacer/>
 					<MenuButton icon="sap-icon://excel-attachment" type="Transparent">
 						<menu>
-							<Menu itemSelected="onMenuExportAction">
-								<MenuItem key="EXCEL" text="{i18n>LogsExportExcel}"/>
-								<MenuItem key="CSV" text="{i18n>LogsExportCSV}"/>
+							<Menu itemSelected="onDataExportToFile">
+								<MenuItem key="EXCEL" text="{i18n>ExportExcel}"/>
+								<MenuItem key="CSV" text="{i18n>ExportCSV}"/>
 							</Menu>
 						</menu>
 					</MenuButton>
 					<ToolbarSeparator/>
-					<SearchField id="LogsPageSearchField" search="onFilters" liveChange= "onFilters" width="auto"
-                                        showRefreshButton="false" />
+					<SearchField id="DatasSearchField" search="onDatasSearch" width="auto" showRefreshButton="false" />
 				</OverflowToolbar>
 			</uiTable:extension>
-			<uiTable:columns>
-
-                </uiTable:columns>
-		</uiTable:Table> -->
+		</uiTable:Table>
+		<codeeditor:CodeEditor visible="{= ${ViewDatas>/displayDataType} === 'table' ? false : true}"
+				type="json" editable="false" value="{CallOdata>/callResultString}" height="75%" />
 	</Page>
 </mvc:View>

@@ -25,22 +25,34 @@ sap.ui.define([
 
 			this.getRouter().getRoute("complexTypes").attachMatched(function (oEvent) {
 
-				let oModel = this.getModel("services");
+				/* let oModel = this.getModel("services"); //TODO spostare altrimenti scatta ad ogni navigazione
 				let bindingElementList = new Binding(oModel, "/", oModel.getContext("/selectedComplexType"));
 				bindingElementList.attachChange(function (oEventChange) {
 					this._clearFilters();
 					this._bindRows();
 				}.bind(this));
 
-				this._bindRows();
+				this._bindRows(); *///TODO spostare altrimenti scatta ad ogni navigazione
+				this.autoResizeColumns("ComplexTypesTable");
 			}.bind(this));
 
 			Device.media.attachHandler(function (oDevice) {
 				this.getModel("ViewComplexTypes").setProperty("/isPhone", oDevice.name === "Phone");
 			}.bind(this));
 
-			let int = (Device.resize.height - 310) / 45;
+			let int = (Device.resize.height - 310) / 45; //TODO put in function base.controller
 			this.byId("ComplexTypesTable").setVisibleRowCount(Math.trunc(int));
+
+			setTimeout(function () {
+				let oModel = this.getModel("services"); //TODO spostare altrimenti scatta ad ogni navigazione
+				let bindingElementList = new Binding(oModel, "/", oModel.getContext("/selectedComplexType"));
+				bindingElementList.attachChange(function (oEventChange) {
+					this._clearFilters();
+					this._bindRows();
+				}.bind(this));
+
+				this._bindRows();//TODO spostare altrimenti scatta ad ogni navigazione
+			}.bind(this), 500);
 		},
 
 		_bindRows: function () {
@@ -90,8 +102,8 @@ sap.ui.define([
 		},
 
 		onChangeComplexType: function () {
-			this._clearFilters();
-			this._bindRows();
+			//this._clearFilters();
+			//this._bindRows();
 		},
 
 		onComplexTypesSearch: function (oEvent) {
@@ -127,7 +139,7 @@ sap.ui.define([
 			});
 		},
 
-		onComplexTypeExportToFile: function (oEvent) {
+		onComplexTypeExportToFile: function (oEvent) { //TODO se non ci sono dati non fare export altrimenti errore in console
 			let sKey = oEvent.getParameter("item").getKey();
 			let sBindingPath = this.byId("ComplexTypesTable").getBinding().getPath();
 			let aProperties = this.getModel("services").getProperty(sBindingPath);
