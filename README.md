@@ -1,5 +1,8 @@
 # OData Visualizer
+<p float="left">
 <img src="https://raw.githubusercontent.com/kevinbalboni/openui5-odata-visualizer/main/webapp/img/Logo_trasparente_piccolo_new.png" width="200" heigth="200">
+<img src="https://raw.githubusercontent.com/kevinbalboni/openui5-odata-visualizer/main/webapp/img/Logo_trasparente_piccolo2.png" width="200" heigth="200">
+</p>
 
 A simple tool to explore V2 OData services
 
@@ -7,18 +10,19 @@ Try <a href="https://kevinbalboni.github.io/openui5-odata-visualizer/" target="_
 
 ## Roadmap
 
+- [ ] Write README.md information about CORS and how to deal with it
 - [X] Refresh metadata create infinite loop
 - [ ] Refresh metadata does not trigger a metadata call
 - [X] Export all tables to CSV/Excel
 - [X] Export metadata to file
 - [ ] Controllare persistenza dei dati quando si cambia view (mantenere i dati in "Esplora Dati")
-- [ ] Credits page / with contact me button /website k-develop.it ecc...
+- [X] Credits page / with contact me button /website k-develop.it ecc...
 - [ ] check Entity navigation cardinality (Example "* ... 0..1" ?!?!?!?!??!?!?!)
 - [X] Count number of entities, functions, complex types
 - [X] Basic authentication for OData Services
 - [ ] Custom header for Odata Services
-- [ ] Function 
-  - [ ] Bounded
+- [X] Function 
+  - [X] Bounded
   - [X] Unbounded
 - [X] Navigations
   - [X] Navigation from Function parameters to Complex Types (parseFileMessages)

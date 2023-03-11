@@ -5,6 +5,7 @@
 	xmlns:core="sap.ui.core"
 	xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
     xmlns:card="sap.f.cards" >
     <Page showHeader="false">
         <content>
@@ -19,12 +20,63 @@
 								visible="true"
 								class="headerGrid"
 								hSpacing="0"
-								defaultSpan="L6 M6 S6">
+								defaultSpan="XL5 L7 M7 S7"
+                                defaultIndent="XL1 L1 M1 S1">
                             <Image	src= "img/Logo_trasparente_piccolo_new.png"
 								width= "35%"
 								height="35%"
 								densityAware= "false"
 								mode= "Image" />
+                        </l:Grid>
+                        <l:Grid width="100%"
+								visible="true"
+								class="headerGrid3"
+								hSpacing="0"
+								defaultSpan="XL5 L7 M7 S7"
+                                defaultIndent="XL1 L1 M1 S1">
+                            <Image	src= "img/Logo_trasparente_piccolo2.png"
+								width= "35%"
+								height="35%"
+								densityAware= "false"
+								mode= "Image" />
+                        </l:Grid>
+                        <l:Grid width="100%"
+								visible="true"
+								class="headerGrid2"
+								hSpacing="0"
+								defaultSpan="XL12 L12 M12 S12">
+                            <form:SimpleForm
+                                    editable="false"
+                                    layout="ResponsiveGridLayout" 
+                                    backgroundDesign="Solid"
+                                    labelSpanXL="2" 
+                                    labelSpanL="2" 
+                                    labelSpanM="2" 
+                                    labelSpanS="12"
+                                    emptySpanXL="2" 
+                                    emptySpanL="2" 
+                                    emptySpanM="3" 
+                                    emptySpanS="0"
+                                    columnsXL="1" 
+                                    columnsL="1" 
+                                    columnsM="1">
+                                <form:content>
+                                    <Label text="{i18n>Author}"/>
+                                    <Text text="Kevin Balboni" />
+                                    <Label text="{i18n>Email}"/>
+                                    <Link text="kevin.balboni@k-develop.it" href="mailto:kevin.balboni@k-develop.it" wrapping="true" target="_blank"/>
+                                    <Label text="{i18n>Phone}"/>
+                                    <Link text="+39 377-2957040" href="tel:+393772957040" wrapping="true"/>
+                                    <Label text="{i18n>Website}"/>
+                                    <Link text="k-develop.it" href="http://k-develop.it" wrapping="true" target="_blank"/>
+                                    <Label text="{i18n>Linkedin}"/>
+                                    <Link text="https://www.linkedin.com/in/kevin-balboni/" href="https://www.linkedin.com/in/kevin-balboni/" wrapping="true" target="_blank"/>
+                                    <Label text="{i18n>Github}"/>
+                                    <Link text="https://github.com/kevinbalboni" href="https://github.com/kevinbalboni" wrapping="true" target="_blank"/>
+                                    <Label text="{i18n>ProjectPage}"/>
+                                    <Link text="https://github.com/kevinbalboni/openui5-odata-visualizer" href="https://github.com/kevinbalboni/openui5-odata-visualizer" wrapping="true" target="_blank"/>
+                                </form:content>
+                            </form:SimpleForm>
                         </l:Grid>
                     </l:BlockLayoutCell>
                 </l:BlockLayoutRow>

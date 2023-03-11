@@ -12,3 +12,19 @@ welcomeImage .odataVisualizer .welcomeImage {
     padding-left: 2rem;
     width: calc(100% - 4rem);
 }
+
+.headerGrid3 {
+    position: absolute;
+    top: 1rem;
+    padding-left: 50%;
+    width: calc(100% - 4rem);
+}
+
+.headerGrid2 {
+    position: absolute;
+    top: 17rem;
+    padding-left: 1rem;
+    width: calc(100% - 4rem);
+    border-radius: 0.75rem;
+    /*background-color: rgb(0 0 0 / 50%);*/
+}
