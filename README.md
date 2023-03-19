@@ -6,7 +6,10 @@
 
 A simple tool to explore V2 OData services
 
-Try <a href="https://kevinbalboni.github.io/openui5-odata-visualizer/" target="_blank">Live Demo</a>
+Try <a href="https://kevinbalboni.github.io/openui5-odata-visualizer/" target="_blank">Live Demo</a> 
+[![MIT License](https://img.shields.io/badge/-read%20About%20CORS%20first-orange)](https://github.com/kevinbalboni/openui5-odata-visualizer/edit/main/README.md#about-cors)
+
+## About CORS
 
 ## Roadmap
 
