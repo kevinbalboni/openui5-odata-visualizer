@@ -10,10 +10,18 @@ Try <a href="https://kevinbalboni.github.io/openui5-odata-visualizer/" target="_
 [![MIT License](https://img.shields.io/badge/-read%20About%20CORS%20first-orange)](https://github.com/kevinbalboni/openui5-odata-visualizer/edit/main/README.md#about-cors)
 
 ## About CORS
+Before using OData Visualizer visit this <a href="https://cors-anywhere.herokuapp.com/corsdemo" target="_blank">page</a> and click the "Request termporary access to the demo server" button.
+
+When adding an OData service, prepend this string to your link: "https://cors-anywhere.herokuapp.com/corsdemo/"
+
+#### Why this?
+
+OData-Visualizer is a tool made only with front-end technologies, there is no server that can act as a proxy for OData calls.
+This approach does not comply with the CORS policies of the major browsers.
 
 ## Roadmap
 
-- [ ] Write README.md information about CORS and how to deal with it
+- [X] Write README.md information about CORS and how to deal with it
 - [X] Refresh metadata create infinite loop
 - [ ] Refresh metadata does not trigger a metadata call
 - [X] Export all tables to CSV/Excel
